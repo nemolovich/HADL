@@ -8,6 +8,10 @@ public abstract class Link extends M2Object {
 	private Interface from;
 	private Interface to;
 
+	public Link(String name) {
+		super(name);
+	}
+
 	public Link(String name, Interface from, Interface to) {
 		super(name);
 		this.from=from;
