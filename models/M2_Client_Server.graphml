@@ -291,8 +291,8 @@ Constraint</y:NodeLabel>
           <y:Geometry height="53.66385677083349" width="246.75099999999992" x="-184.26047031250005" y="-109.38438281249975"/>
           <y:Fill color="#FFFF99" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" modelName="custom" textColor="#000000" visible="true" width="231.484375" x="7.63331249999996" y="3.878803385416745">
-from.type==InterfaceType.Requiered
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" modelName="custom" textColor="#000000" visible="true" width="224.1015625" x="11.32471874999996" y="3.878803385416745">
+from.type==InterfaceType.Required
 to.type==InterfaceType.Provided<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
