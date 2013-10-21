@@ -1,4 +1,4 @@
-package M2;
+package m2.element;
 
 public class Configuration {
 }
