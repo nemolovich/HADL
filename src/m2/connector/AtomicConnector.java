@@ -21,6 +21,18 @@ public class AtomicConnector extends Element{
 		this(name, new ArrayList<Role>(), new ArrayList<Glue>());
 	}
 	
+	public boolean containRole(Role role) {
+		synchronized (this.roles) {
+			return this.roles.contains(role);
+		}
+	}
+	
+	public boolean containGlue(Glue glue) {
+		synchronized (this.glues) {
+			return this.glues.contains(glue);
+		}
+	}
+	
 	public boolean addRole(Role role) {
 		synchronized (this.roles) {
 			return this.roles.add(role);
