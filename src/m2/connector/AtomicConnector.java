@@ -22,8 +22,6 @@ public class AtomicConnector extends Element{
 		this(name, new ArrayList<Role>(), new ArrayList<Glue>());
 	}
 	
-	//TODO add and remove
-	
 	public boolean addRole(Role role) {
 		return this.roles.add(role);
 	}
@@ -54,5 +52,13 @@ public class AtomicConnector extends Element{
 			b &= this.glues.add(r);
 		}
 		return b;
+	}
+	
+	public boolean removeRole(Role role) {
+		return this.roles.remove(role);
+	}
+	
+	public boolean removeGlue(Glue glue) {
+		return this.glues.remove(glue);
 	}
 }
