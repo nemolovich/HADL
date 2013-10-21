@@ -143,8 +143,8 @@ Connector</y:NodeLabel>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="34.64013671875" x="32.679931640625" y="25.96875">Link</y:NodeLabel>
           <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="Abstract" use3DEffect="true">
-            <y:AttributeLabel>from:Port
-to:Port</y:AttributeLabel>
+            <y:AttributeLabel>from:Interface
+to:Interface</y:AttributeLabel>
             <y:MethodLabel/>
           </y:UML>
         </y:UMLClassNode>
@@ -286,13 +286,12 @@ Constraint</y:NodeLabel>
     </node>
     <node id="n18">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLNoteNode>
           <y:Geometry height="53.66385677083349" width="246.75099999999992" x="-184.26047031250005" y="-109.38438281249975"/>
           <y:Fill color="#FFFF99" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" modelName="custom" textColor="#000000" visible="true" width="231.484375" x="7.633312499999988" y="3.878803385416745">
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" modelName="custom" textColor="#000000" visible="true" width="231.484375" x="7.63331249999996" y="3.878803385416745">
 from.type==InterfaceType.Requiered
 to.type==InterfaceType.Provided<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -306,7 +305,6 @@ to.type==InterfaceType.Provided<y:LabelModel>
     </node>
     <node id="n19">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLNoteNode>
           <y:Geometry height="36.19199999999998" width="137.37599999999998" x="-248.99358833587803" y="434.54632456964504"/>
@@ -325,7 +323,6 @@ from.type!=to.type<y:LabelModel>
     </node>
     <node id="n20">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:UMLNoteNode>
           <y:Geometry height="36.19199999999998" width="137.37599999999998" x="235.73952968749978" y="-109.38438281249975"/>
@@ -747,7 +744,6 @@ from.type!=to.type<y:LabelModel>
     </edge>
     <edge id="e25" source="n0" target="n17">
       <data key="d7"/>
-      <data key="d8"/>
       <data key="d9">
         <y:PolyLineEdge>
           <y:Path sx="67.4921875" sy="-12.705450733752627" tx="0.0" ty="0.0"/>
@@ -775,7 +771,6 @@ from.type!=to.type<y:LabelModel>
     </edge>
     <edge id="e26" source="n1" target="n1">
       <data key="d7"/>
-      <data key="d8"/>
       <data key="d9">
         <y:PolyLineEdge>
           <y:Path sx="-14.023034485465075" sy="-22.88878513599922" tx="32.30971429277287" ty="-22.897749981225665">
@@ -804,7 +799,6 @@ from.type!=to.type<y:LabelModel>
       </data>
     </edge>
     <edge id="e27" source="n18" target="n9">
-      <data key="d8"/>
       <data key="d9">
         <y:GenericEdge configuration="com.yworks.bpmn.Connection">
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -820,7 +814,6 @@ from.type!=to.type<y:LabelModel>
       </data>
     </edge>
     <edge id="e28" source="n19" target="n16">
-      <data key="d8"/>
       <data key="d9">
         <y:GenericEdge configuration="com.yworks.bpmn.Connection">
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -835,7 +828,6 @@ from.type!=to.type<y:LabelModel>
       </data>
     </edge>
     <edge id="e29" source="n10" target="n20">
-      <data key="d8"/>
       <data key="d9">
         <y:GenericEdge configuration="com.yworks.bpmn.Connection">
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
