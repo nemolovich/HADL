@@ -1,7 +1,5 @@
-package m2.link;
+package m2.interfaces;
 
-import m2.interfaces.Interface;
-import m2.interfaces.InterfaceType;
 
 public class Port extends Interface {
 
