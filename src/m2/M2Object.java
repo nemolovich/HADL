@@ -1,7 +1,12 @@
 package m2;
-
+/**
+ * 
+ * @author Guillaume Coutable, Brian Gohier
+ * Permet l'extraction de l'attribut 'name' de chaque classe de notre modèle M2
+ *
+ */
 public abstract class M2Object {
-
+	
 	private String name;
 
 	public M2Object(String name) {
