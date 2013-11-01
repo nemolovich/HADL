@@ -4,8 +4,8 @@ import m2.element.Component;
 
 public class ConnectionManager extends Component {
 
-	public ConnectionManager(String name) {
-		super(name);
+	public ConnectionManager(String name, AuthProvidedPort port) {
+		super(name, port);
 	}
 
 }
