@@ -2,7 +2,7 @@ package m2;
 /**
  * 
  * @author Guillaume Coutable, Brian Gohier
- * Permet l'extraction de l'attribut 'name' de chaque classe de notre modèle M2
+ * Permet l'extraction de l'attribut 'name' de chaque classe de notre modele M2
  *
  */
 public abstract class M2Object {

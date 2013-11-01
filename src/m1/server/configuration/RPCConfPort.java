@@ -8,9 +8,9 @@ import m2.interfaces.Port;
  * @author Guillaume Coutable, Brian Gohier
  *
  */
-public class AuthPort extends Port {
+public class RPCConfPort extends Port {
 
-	public AuthPort(String name) {
+	public RPCConfPort(String name) {
 		super(name, InterfaceType.REQUIRED);
 	}
 

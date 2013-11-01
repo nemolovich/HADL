@@ -8,9 +8,9 @@ import m2.interfaces.Port;
  * @author Guillaume Coutable, Brian Gohier
  *
  */
-public class AuthPort extends Port {
+public class DBPort extends Port {
 
-	public AuthPort(String name) {
+	public DBPort(String name) {
 		super(name, InterfaceType.REQUIRED);
 	}
 
