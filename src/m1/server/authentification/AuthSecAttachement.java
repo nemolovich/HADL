@@ -6,7 +6,7 @@ import m2.link.Attachement;
 
 public class AuthSecAttachement extends Attachement {
 
-	public AuthSecAttachement(String name, Interface from, Interface to)
+	public AuthSecAttachement(String name, AuthRequiredPort from, Interface to)
 			throws NonDifferentsTypesException {
 		super(name, from, to);
 	}

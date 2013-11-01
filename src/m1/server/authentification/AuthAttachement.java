@@ -1,12 +1,11 @@
 package m1.server.authentification;
 
 import m2.exception.NonDifferentsTypesException;
-import m2.interfaces.Interface;
 import m2.link.Attachement;
 
 public class AuthAttachement extends Attachement {
 
-	public AuthAttachement(String name, Interface from, Interface to)
+	public AuthAttachement(String name, AuthProvidedPort from, AuthFrom to)
 			throws NonDifferentsTypesException {
 		super(name, from, to);
 	}
