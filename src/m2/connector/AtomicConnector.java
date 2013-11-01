@@ -12,7 +12,7 @@ import m2.interfaces.Role;
  * 
  * 
  */
-public class AtomicConnector extends Element{
+public abstract class AtomicConnector extends Element {
 	
 	private List<Role> roles;
 	private List<Glue> glues;

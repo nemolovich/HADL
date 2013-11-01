@@ -13,7 +13,7 @@ import m2.option.TechnicalConstraint;
  * @author Guillaume Coutable, Brian Gohier
  *
  */
-public class Configuration extends Component {
+public abstract class Configuration extends Component {
 	
 	private List<Property> properties;
 	private List<TechnicalConstraint> constraints;

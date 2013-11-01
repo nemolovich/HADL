@@ -5,7 +5,7 @@ import m2.exception.NonRequiredTypeFrom;
 import m2.interfaces.Interface;
 import m2.interfaces.InterfaceType;
 
-public class Binding extends Link {
+public abstract class Binding extends Link {
 
 	public Binding(String name, Interface from, Interface to)
 			throws NonRequiredTypeFrom, NonProvidedTypeTo {

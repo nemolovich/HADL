@@ -5,7 +5,7 @@ package m2.element;
  * @author Guillaume Coutable, Brian Gohier
  *
  */
-public class Component extends Element {
+public abstract class Component extends Element {
 
 	public Component(String name) {
 		super(name);

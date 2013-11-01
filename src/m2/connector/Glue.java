@@ -8,7 +8,7 @@ import m2.interfaces.Role;
  * @author Guillaume Coutable, Brian Gohier
  *
  */
-public class Glue extends M2Object {
+public abstract class Glue extends M2Object {
 	
 	private Role from;
 	private Role to;
