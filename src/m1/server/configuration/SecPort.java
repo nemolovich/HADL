@@ -8,9 +8,9 @@ import m2.interfaces.Port;
  * @author Guillaume Coutable, Brian Gohier
  *
  */
-public class AuthPort extends Port {
+public class SecPort extends Port {
 
-	public AuthPort(String name) {
+	public SecPort(String name) {
 		super(name, InterfaceType.REQUIRED);
 	}
 
