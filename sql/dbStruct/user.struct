@@ -1,0 +1,7 @@
+# User class
+*id = INTEGER
+name = VARCHAR(40)
+firstname = VARCHAR(40)
+age = INTEGER
+sexe = CHAR IN ('F','M')
+gl = BOOLEAN
