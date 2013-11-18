@@ -43,7 +43,8 @@ Confirguration<y:LabelModel>
           <y:Geometry height="48.0" width="127.0" x="928.6963143968869" y="235.0"/>
           <y:Fill color="#FF9900" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="73.7861328125" x="26.60693359375" y="3.0">DataBase<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="34.265625" modelName="custom" textColor="#000000" visible="true" width="73.7861328125" x="26.60693359375" y="3.0">DataBase
+Manager<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -3328,7 +3329,6 @@ Port<y:LabelModel>
     </edge>
     <edge id="e124" source="n0" target="n61">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="95.45166499331435" sy="-51.942373272241184" tx="-37.68471161780565" ty="22.153268610108597">
@@ -3343,7 +3343,6 @@ Port<y:LabelModel>
     </edge>
     <edge id="e125" source="n0" target="n59">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-0.8252503813511112" sy="-25.448306205458834" tx="-46.97682987319797" ty="22.190153252825624">
@@ -3362,7 +3361,6 @@ Port<y:LabelModel>
     </edge>
     <edge id="e126" source="n0" target="n63">
       <data key="d8"/>
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="104.89169154827198" sy="46.85133966893494" tx="0.0" ty="0.0">
