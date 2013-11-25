@@ -1,5 +1,6 @@
-# Our wonderfull database
-user.1.name=GOHIER
+#Our wonderfull database
+#Mon Nov 25 17:58:32 CET 2013
 user.1.firstname=Brian
 user.2.name=COUTABLE
-user.2.firstname=Guillaume
+user.1.name=GOHIER
+user.2.firstname=guillaume
