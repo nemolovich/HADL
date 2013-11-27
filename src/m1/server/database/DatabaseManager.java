@@ -6,10 +6,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import m2.element.Component;
 import fr.univ.nantes.StringUtil.StringUtil;
@@ -132,10 +135,8 @@ public class DatabaseManager extends Component {
 
 		List<String> attributList = new ArrayList<String>();
 		String attributs = this.dbSchema.getProperty(tableName);
-		System.out.println(attributs);
 
 		for (String attr : attributs.split(";")) {
-			System.out.println(attr);
 			attributList.add(attr);
 		}
 
@@ -313,16 +314,108 @@ public class DatabaseManager extends Component {
 		return added;
 	}
 
-	// TODO: To implement
+	/**
+	 * Remove the tuple from the table `tableName`, corresponding to the id `id`
+	 * 
+	 * @param tableName
+	 *            the table which contains the Id `id`
+	 * @param id
+	 *            the Id to remove
+	 * @return {@link Boolean boolean} - <code>true</code> if the tuple had been
+	 *         remove, <code>false</code> otherwise.
+	 */
 	public boolean removeTuple(String tableName, int id) {
-		boolean removed = false;
+		boolean removed = true;
+		// overture des fichiers de la bd
+		removed &= this.connect();
+		removed &= this.openLastIdFile();
+		removed &= this.openSchema();
+
+		// récupération des attributs
+		List<String> attributList = this.getAttributesName(tableName);
+
+		// création des clef représentant le Tuple
+		List<String> keyList = new ArrayList<String>();
+		for (String attr : attributList) {
+			keyList.add(tableName + "." + id + "." + attr);
+		}
+
+		// suppression du tuple de la base
+		for (String key : keyList) {
+			this.data.remove(key);
+		}
+
+		// mise à jour de la base de données
+		try {
+			this.data.store(new FileWriter(DATABASE), DATABASECOMMENT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.closeSchema();
+		this.closeLastIdFile();
+		this.close();
 
 		return removed;
 	}
 
-	// TODO: To implement
+	/**
+	 * Remove from the database, the table `tableName`
+	 * 
+	 * @param tableName
+	 *            the table to remove
+	 * @return {@link Boolean boolean} - <code>true</code> if the table had been
+	 *         removed, <code>false</code> otherwise.
+	 */
 	public boolean removeTable(String tableName) {
-		boolean removed = false;
+		boolean removed = true;
+		// overture des fichiers de la bd
+		removed &= this.connect();
+		removed &= this.openLastIdFile();
+		removed &= this.openSchema();
+
+		// suppression de la table dans la bd
+		Set<Object> toRmv = new HashSet<Object>();
+		for (Object s : this.data.keySet()) {
+			if (Pattern.matches(tableName + ".*", (String) s)) {
+				// suppression des lignes dont les clefs correspondent au
+				// pattern "tablename.*"
+				toRmv.add(s);
+			}
+		}
+
+		for (Object o : toRmv) {
+			this.data.remove(o);
+		}
+
+		// mise à jour de la base de données
+		try {
+			this.data.store(new FileWriter(DATABASE), DATABASECOMMENT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// suppression de la table dans le schéma
+		this.dbSchema.remove(tableName);
+		try {
+			this.dbSchema.store(new FileWriter(DBSCHEMA), DBSCHEMACOMMENT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// suppression de la table dans le fichier d'ID
+		this.lastIdOfTable.remove(tableName);
+		try {
+			this.lastIdOfTable.store(new FileWriter(LASTID), LASTIDCOMMENT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		this.closeSchema();
+		this.closeLastIdFile();
+		this.close();
 
 		return removed;
 	}
@@ -330,6 +423,10 @@ public class DatabaseManager extends Component {
 	public static void main(String... args) {
 		DatabaseManager dm = new DatabaseManager("databaseManager",
 				new DBProvidedPort("providedPort"));
+
+		// System.out.println(dm.removeTable("user"));
+
+		// System.out.println(dm.removeTuple("user", 2));
 
 		// System.out.println(dm.addTuple("user", "COUTABLE", "guillaume"));
 
