@@ -6,12 +6,12 @@ import m2.interfaces.Port;
 /**
  * 
  * @author Guillaume Coutable, Brian Gohier
- *
+ * 
  */
 public class AuthPort extends Port {
 
-	public AuthPort(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public AuthPort(String name, int numPort) {
+		super(name, InterfaceType.REQUIRED, numPort);
 	}
 
 }

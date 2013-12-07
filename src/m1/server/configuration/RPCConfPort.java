@@ -6,12 +6,12 @@ import m2.interfaces.Port;
 /**
  * 
  * @author Guillaume Coutable, Brian Gohier
- *
+ * 
  */
 public class RPCConfPort extends Port {
 
-	public RPCConfPort(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public RPCConfPort(String name, int numPort) {
+		super(name, InterfaceType.REQUIRED, numPort);
 	}
 
 }

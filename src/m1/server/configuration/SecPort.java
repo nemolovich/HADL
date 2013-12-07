@@ -6,12 +6,12 @@ import m2.interfaces.Port;
 /**
  * 
  * @author Guillaume Coutable, Brian Gohier
- *
+ * 
  */
 public class SecPort extends Port {
 
-	public SecPort(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public SecPort(String name, int numPort) {
+		super(name, InterfaceType.REQUIRED, numPort);
 	}
 
 }

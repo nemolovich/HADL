@@ -5,8 +5,8 @@ import m2.interfaces.Port;
 
 public class DBRequiredPort extends Port {
 
-	public DBRequiredPort(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public DBRequiredPort(String name, int numPort) {
+		super(name, InterfaceType.REQUIRED, numPort);
 	}
 
 }

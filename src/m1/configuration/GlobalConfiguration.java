@@ -7,5 +7,4 @@ public class GlobalConfiguration extends Configuration {
 	public GlobalConfiguration(String name, RPCPort intfce) {
 		super(name, intfce);
 	}
-
 }

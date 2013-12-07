@@ -6,12 +6,12 @@ import m2.interfaces.Port;
 /**
  * 
  * @author Guillaume Coutable, Brian Gohier
- *
+ * 
  */
 public class DBPort extends Port {
 
-	public DBPort(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public DBPort(String name, int numPort) {
+		super(name, InterfaceType.REQUIRED, numPort);
 	}
 
 }

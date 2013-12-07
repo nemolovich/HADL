@@ -5,8 +5,8 @@ import m2.interfaces.Port;
 
 public class AuthProvidedPort extends Port {
 
-	public AuthProvidedPort(String name) {
-		super(name, InterfaceType.PROVIDED);
+	public AuthProvidedPort(String name, int numPort) {
+		super(name, InterfaceType.PROVIDED, numPort);
 	}
 
 }

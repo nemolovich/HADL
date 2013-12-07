@@ -5,8 +5,8 @@ import m2.interfaces.Port;
 
 public class RPCPort extends Port {
 
-	public RPCPort(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public RPCPort(String name, int numPort) {
+		super(name, InterfaceType.REQUIRED, numPort);
 	}
 
 }
