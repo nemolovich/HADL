@@ -9,18 +9,14 @@ import m2.interfaces.InterfaceType;
 public class Main {
 
 	public static void main(String[] args) {
-		String globalConfigName = "global configuration";
-		RPCPort intfce = new RPCPort("rpcport", 10);
+		RPCPort rpcPort = new RPCPort("rpcport", 2001);
 
 		GlobalConfiguration globalConfiguration = new GlobalConfiguration(
-				globalConfigName, intfce);
-
+				"global configuration", rpcPort);
 		RPCServeurPort rpcServeurPort = new RPCServeurPort("rpc-serveur-port",
-				InterfaceType.PROVIDED);
+				InterfaceType.PROVIDED, 2002);
 		ServeurConfiguration serveur = new ServeurConfiguration(
 				"serveurConfiguration", rpcServeurPort);
-
 		globalConfiguration.addElement(serveur);
-
 	}
 }

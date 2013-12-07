@@ -20,7 +20,7 @@ public abstract class Configuration extends Component {
 	private List<Element> elements;
 
 	public Configuration(String name, Interface intfce) {
-		super(name, null, intfce);
+		super(name, intfce);
 	}
 
 	/*
@@ -198,6 +198,7 @@ public abstract class Configuration extends Component {
 	 */
 	public boolean addElement(Element element) {
 		synchronized (this.elements) {
+			element.setConfiguration(this);
 			return this.elements.add(element);
 		}
 	}

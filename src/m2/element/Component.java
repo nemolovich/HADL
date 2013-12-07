@@ -16,11 +16,9 @@ public abstract class Component extends Element {
 
 	protected List<Link> links;
 	protected List<Interface> interfaces;
-	private Configuration configuration;
 
-	public Component(String name, Configuration conf, Interface intfce) {
+	public Component(String name, Interface intfce) {
 		super(name);
-		this.configuration = conf;
 		this.interfaces = new ArrayList<Interface>();
 		this.addInterface(intfce);
 	}

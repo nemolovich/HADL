@@ -14,19 +14,20 @@ public abstract class Link extends M2Object {
 
 	public Link(String name, Interface from, Interface to) {
 		super(name);
-		this.from=from;
-		this.to=to;
+		this.from = from;
+		this.to = to;
 	}
 
 	/**
 	 * @return the from
 	 */
 	public Interface getFrom() {
-		return from;
+		return this.from;
 	}
 
 	/**
-	 * @param from the from to set
+	 * @param from
+	 *            the from to set
 	 */
 	public void setFrom(Interface from) {
 		this.from = from;
@@ -36,11 +37,12 @@ public abstract class Link extends M2Object {
 	 * @return the to
 	 */
 	public Interface getTo() {
-		return to;
+		return this.to;
 	}
 
 	/**
-	 * @param to the to to set
+	 * @param to
+	 *            the to to set
 	 */
 	public void setTo(Interface to) {
 		this.to = to;
