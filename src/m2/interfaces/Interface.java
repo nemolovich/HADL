@@ -7,18 +7,19 @@ public abstract class Interface extends M2Object {
 
 	public Interface(String name, InterfaceType type) {
 		super(name);
-		this.type=type;
+		this.type = type;
 	}
-	
+
 	/**
 	 * @return the type
 	 */
 	public InterfaceType getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param type
+	 *            the type to set
 	 */
 	public void setType(InterfaceType type) {
 		this.type = type;

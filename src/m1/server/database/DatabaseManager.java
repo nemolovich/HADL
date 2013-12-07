@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import m2.element.Component;
-import m2.element.Configuration;
 import fr.univ.nantes.StringUtil.StringUtil;
 
 public class DatabaseManager extends Component {
@@ -33,9 +32,8 @@ public class DatabaseManager extends Component {
 	private static final String LASTID = "./sql/LastIds.properties";
 	private static final String LASTIDCOMMENT = "table=lastId";
 
-	public DatabaseManager(String name, Configuration configuration,
-			DBProvidedPort port) {
-		super(name, configuration, port);
+	public DatabaseManager(String name, DBProvidedPort port) {
+		super(name, port);
 	}
 
 	/**
