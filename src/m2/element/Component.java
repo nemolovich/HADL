@@ -20,6 +20,7 @@ public abstract class Component extends Element {
 	public Component(String name, Interface intfce) {
 		super(name);
 		this.interfaces = new ArrayList<Interface>();
+		this.links = new ArrayList<Link>();
 		this.addInterface(intfce);
 	}
 
@@ -32,6 +33,7 @@ public abstract class Component extends Element {
 	public void sendMessage(M2Object message) {
 		System.out.println("[" + this.getName() + "] Sending message {"
 				+ message.getName() + "}");
+		this.configuration.sendMessage(message, this);
 	}
 
 	/*

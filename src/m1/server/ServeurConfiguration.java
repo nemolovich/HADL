@@ -7,7 +7,6 @@ public class ServeurConfiguration extends Configuration {
 
 	public ServeurConfiguration(String name, Interface intfce) {
 		super(name, intfce);
-		// TODO Auto-generated constructor stub
 	}
 
 }

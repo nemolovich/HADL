@@ -1,5 +1,6 @@
 package m2.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import m2.M2Object;
@@ -21,6 +22,9 @@ public abstract class Configuration extends Component {
 
 	public Configuration(String name, Interface intfce) {
 		super(name, intfce);
+		this.elements = new ArrayList<Element>();
+		this.constraints = new ArrayList<TechnicalConstraint>();
+		this.properties = new ArrayList<Property>();
 	}
 
 	/*

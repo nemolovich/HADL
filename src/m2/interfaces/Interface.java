@@ -1,9 +1,11 @@
 package m2.interfaces;
 
 import m2.M2Object;
+import m2.element.Configuration;
 
 public abstract class Interface extends M2Object {
 	private InterfaceType type;
+	protected Configuration configuration;
 
 	public Interface(String name, InterfaceType type) {
 		super(name);
@@ -23,5 +25,9 @@ public abstract class Interface extends M2Object {
 	 */
 	public void setType(InterfaceType type) {
 		this.type = type;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 }
