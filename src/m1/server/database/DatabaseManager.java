@@ -67,7 +67,7 @@ public class DatabaseManager extends Component {
 	}
 
 	/**
-	 * Open the database schem, return <code>true</code> if the file has been
+	 * Open the database schema, return <code>true</code> if the file has been
 	 * correctly read, <code>false</code> otherwise
 	 * 
 	 * @return {@link Boolean boolean} - <code>true</code> if the file has been
