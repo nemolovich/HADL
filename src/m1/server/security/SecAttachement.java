@@ -1,6 +1,6 @@
 package m1.server.security;
 
-import m2.exception.NonDifferentsTypesException;
+import m2.exception.NoDifferentsTypesException;
 import m2.link.Attachement;
 
 public class SecAttachement extends Attachement {
@@ -11,7 +11,7 @@ public class SecAttachement extends Attachement {
 	private static final long serialVersionUID = 2532396915895092955L;
 
 	public SecAttachement(String name, SecProvidedPort from, SecFrom to)
-			throws NonDifferentsTypesException {
+			throws NoDifferentsTypesException {
 		super(name, from, to);
 	}
 

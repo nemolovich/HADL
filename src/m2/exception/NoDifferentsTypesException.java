@@ -1,13 +1,13 @@
 package m2.exception;
 
-public class NonDifferentsTypesException extends Exception {
+public class NoDifferentsTypesException extends Exception {
 
 	/**
 	 * ID
 	 */
 	private static final long serialVersionUID = 2888550584884551879L;
 	
-	public NonDifferentsTypesException() {
+	public NoDifferentsTypesException() {
 	}
 	
 	@Override

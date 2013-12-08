@@ -32,7 +32,7 @@ import m1.server.security.SecTo;
 import m1.server.security.SecurityConnector;
 import m1.server.security.SecurityManager;
 import m2.element.Configuration;
-import m2.exception.NonDifferentsTypesException;
+import m2.exception.NoDifferentsTypesException;
 import m2.interfaces.Interface;
 
 public class ServeurConfiguration extends Configuration {
@@ -102,7 +102,7 @@ public class ServeurConfiguration extends Configuration {
 			SecGlue secGlue = new SecGlue(roleSecFrom, roleSecTo);
 			securityConnector.addGlues(secGlue);
 			securityConnector.addRoles(roleSecFrom, roleSecTo);
-		} catch (NonDifferentsTypesException e) {
+		} catch (NoDifferentsTypesException e) {
 			e.printStackTrace();
 		}
 
@@ -132,7 +132,7 @@ public class ServeurConfiguration extends Configuration {
 			AuthSecAttachement authSecAttachement = new AuthSecAttachement(
 					roleSecTo, authProvidedPort);
 			this.addLink(authSecAttachement);
-		} catch (NonDifferentsTypesException e1) {
+		} catch (NoDifferentsTypesException e1) {
 			e1.printStackTrace();
 		}
 
