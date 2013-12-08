@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import m2.M2Object;
 import m2.connector.AtomicConnector;
 import m2.connector.Glue;
 import m2.exception.ServiceException;
@@ -265,19 +264,36 @@ public abstract class Configuration extends Component {
 		}
 	}
 
-	public void sendMessage(M2Object message, Component component) {
-		synchronized (this.links) {
-			for (Link l : this.links) {
-				if (l instanceof Attachement) {
-					synchronized (component.interfaces) {
-						if (component.interfaces.contains(((Attachement) l)
-								.getFrom())) {
-							System.out.println("I got the good one!!");
+	/**
+	 * Check if this configuration contains the specified service with given
+	 * service name
+	 * 
+	 * @param serviceName
+	 *            {@link String} - Name of service to search
+	 * @return {@link Boolean boolean} - <code>true</code> if the service
+	 *         exists, <code>false</code> otherwise
+	 */
+	@Override
+	public boolean hasService(String serviceName) {
+		synchronized (this.interfaces) {
+			if (super.hasService(serviceName)) {
+				return true;
+			}
+			synchronized (this.elements) {
+				for (Element e : this.elements) {
+					if (e instanceof Component) {
+						if (((Component) e).hasService(serviceName)) {
+							return true;
+						}
+					} else if (e instanceof Configuration) {
+						if (((Configuration) e).hasService(serviceName)) {
+							return true;
 						}
 					}
 				}
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -365,22 +381,25 @@ public abstract class Configuration extends Component {
 					List<Glue> glues = ((AtomicConnector) e).getGlues();
 					synchronized (glues) {
 						for (Glue g : glues) {
-							if (g.getFrom().equals(r)) {
+							if (g.getFrom().equals(r) || g.getTo().equals(r)) {
 								System.out.println("[Configuration{"
 										+ this.getName() + "}] Using Glue{"
-										+ g.getName() + "}");
-								System.out.println("\tRole{"
-										+ g.getFrom().getName() + "} -> Role{"
-										+ g.getTo().getName() + "}");
-								return g.getTo();
-							} else if (g.getTo().equals(r)) {
-								System.out.println("[Configuration{"
-										+ this.getName() + "}] Using Glue{"
-										+ g.getName() + "}");
-								System.out.println("\tRole{"
-										+ g.getTo().getName() + "} <- Role{"
-										+ g.getFrom().getName() + "}");
-								return g.getFrom();
+										+ g.getName() + "} in connector {"
+										+ e.getName() + "}");
+								Role r1, r2;
+								String sens = "->";
+								if (g.getFrom().equals(r)) {
+									r1 = g.getFrom();
+									r2 = g.getTo();
+								} else {
+									r1 = g.getTo();
+									r2 = g.getFrom();
+									sens = "<-";
+								}
+								System.out.println("\tRole{" + r1.getName()
+										+ "} " + sens + " Role{" + r2.getName()
+										+ "}");
+								return r2;
 							}
 						}
 					}

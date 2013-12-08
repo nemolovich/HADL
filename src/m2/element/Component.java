@@ -7,6 +7,7 @@ import java.util.Map;
 import m2.interfaces.Interface;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Port;
+import m2.interfaces.Service;
 import m2.link.Link;
 
 /**
@@ -114,6 +115,28 @@ public abstract class Component extends Element {
 		synchronized (this.interfaces) {
 			return this.interfaces.contains(intfce);
 		}
+	}
+
+	/**
+	 * Check if this configuration contains the specified service with given
+	 * service name
+	 * 
+	 * @param serviceName
+	 *            {@link String} - Name of service to search
+	 * @return {@link Boolean boolean} - <code>true</code> if the service
+	 *         exists, <code>false</code> otherwise
+	 */
+	public boolean hasService(String serviceName) {
+		synchronized (this.interfaces) {
+			for (Interface i : this.interfaces) {
+				if (i instanceof Service
+						&& ((Service) i).getName()
+								.equalsIgnoreCase(serviceName)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

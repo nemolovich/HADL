@@ -34,8 +34,8 @@ public class Main {
 		params.put("user", "GOHIER");
 		params.put("password", "password");
 
-		boolean connected = (Boolean) serveur.callService(
-				"AuthenticationService", params);
+		boolean connected = (Boolean) serveur.callService("ConnectionService",
+				params);
 		System.out.println("Connected: " + connected);
 	}
 }

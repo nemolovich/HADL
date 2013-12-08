@@ -109,5 +109,9 @@ public class ServeurConfiguration extends Configuration {
 			e1.printStackTrace();
 		}
 
+		// Connection Service
+		ConnectionService connectionService = new ConnectionService();
+		this.addInterface(connectionService);
+
 	}
 }
