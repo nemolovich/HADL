@@ -3,7 +3,6 @@ package m2.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import m2.M2Object;
 import m2.interfaces.Interface;
 import m2.link.Link;
 
@@ -22,18 +21,6 @@ public abstract class Component extends Element {
 		this.interfaces = new ArrayList<Interface>();
 		this.links = new ArrayList<Link>();
 		this.addInterface(intfce);
-	}
-
-	public void getMessage(M2Object message, Element from) {
-		System.out.println("[" + this.getName() + "] Receving message {"
-				+ message.getName() + "}");
-		this.configuration.sendMessage(message, this);
-	}
-
-	public void sendMessage(M2Object message) {
-		System.out.println("[" + this.getName() + "] Sending message {"
-				+ message.getName() + "}");
-		this.configuration.sendMessage(message, this);
 	}
 
 	/*
@@ -134,6 +121,7 @@ public abstract class Component extends Element {
 	 */
 	public boolean addInterface(Interface intfce) {
 		synchronized (this.interfaces) {
+			intfce.setConfiguration(this.configuration);
 			return this.interfaces.add(intfce);
 		}
 	}
@@ -147,6 +135,11 @@ public abstract class Component extends Element {
 	 */
 	public boolean addInterfaces(List<Interface> interfaces) {
 		synchronized (this.interfaces) {
+			synchronized (interfaces) {
+				for (Interface itf : interfaces) {
+					itf.setConfiguration(this.configuration);
+				}
+			}
 			return this.interfaces.addAll(interfaces);
 		}
 	}
@@ -161,8 +154,9 @@ public abstract class Component extends Element {
 	public boolean addInterfaces(Interface... interfaces) {
 		boolean added = true;
 		synchronized (this.interfaces) {
-			for (Interface l : interfaces) {
-				added &= this.interfaces.add(l);
+			for (Interface i : interfaces) {
+				i.setConfiguration(this.configuration);
+				added &= this.interfaces.add(i);
 			}
 		}
 		return added;

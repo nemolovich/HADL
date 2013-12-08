@@ -2,9 +2,12 @@ package m2.element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import m2.M2Object;
+import m2.exception.ServiceException;
 import m2.interfaces.Interface;
+import m2.interfaces.Service;
 import m2.link.Attachement;
 import m2.link.Link;
 import m2.option.Property;
@@ -216,6 +219,11 @@ public abstract class Configuration extends Component {
 	 */
 	public boolean addElements(List<Element> elements) {
 		synchronized (this.elements) {
+			synchronized (elements) {
+				for (Element e : elements) {
+					e.setConfiguration(this);
+				}
+			}
 			return this.elements.addAll(elements);
 		}
 	}
@@ -231,6 +239,7 @@ public abstract class Configuration extends Component {
 		boolean added = true;
 		synchronized (this.elements) {
 			for (Element e : elements) {
+				e.setConfiguration(this);
 				added &= this.elements.add(e);
 			}
 		}
@@ -264,5 +273,82 @@ public abstract class Configuration extends Component {
 				}
 			}
 		}
+	}
+
+	public Object callService(String serviceName, Map<String, Object> args) {
+		Service toCall = null;
+		synchronized (this.interfaces) {
+			for (Interface i : this.interfaces) {
+				if (i instanceof Service) {
+					if (i.getName().equalsIgnoreCase(serviceName)) {
+						toCall = (Service) i;
+					}
+				}
+			}
+		}
+		if (toCall == null) {
+			synchronized (this.elements) {
+				for (Element e : this.elements) {
+					if (e instanceof Component) {
+						synchronized (((Component) e).interfaces) {
+							for (Interface i : ((Component) e).interfaces) {
+								if (i.getName().equalsIgnoreCase(serviceName)) {
+									toCall = (Service) i;
+								}
+							}
+						}
+					} else if (e instanceof Configuration) {
+						if (((Configuration) e).containsService(serviceName)) {
+							System.out.println("[Configuration{"
+									+ this.getName() + "}] Call service {"
+									+ toCall.getName() + "}");
+							return ((Configuration) e).callService(serviceName,
+									args);
+						}
+					}
+				}
+			}
+		}
+		if (toCall != null) {
+			System.out.println("[Configuration{" + this.getName()
+					+ "}] Call service {" + toCall.getName() + "}");
+			try {
+				return toCall.call(args);
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	private boolean containsService(String serviceName) {
+		synchronized (this.interfaces) {
+			for (Interface i : this.interfaces) {
+				System.out.println("try with: " + i.getName());
+				if (i instanceof Service) {
+					if (i.getName().equalsIgnoreCase(serviceName)) {
+						return true;
+					}
+				}
+			}
+		}
+		synchronized (this.elements) {
+			for (Element e : this.elements) {
+				if (e instanceof Component) {
+					synchronized (((Component) e).interfaces) {
+						for (Interface i : ((Component) e).interfaces) {
+							if (i.getName().equalsIgnoreCase(serviceName)) {
+								return true;
+							}
+						}
+					}
+				} else if (e instanceof Configuration) {
+					if (((Configuration) e).containsService(serviceName)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

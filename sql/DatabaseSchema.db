@@ -1,3 +1,3 @@
 #tableName=attributs, semi-colon separated
 #Wed Nov 27 15:24:35 CET 2013
-user=name;firstname
+user=name;firstname;password

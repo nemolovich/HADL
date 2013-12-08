@@ -1,12 +1,14 @@
 package m0.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import m1.client.ClientComponent;
 import m1.client.ClientProvidedPort;
 import m1.configuration.GlobalConfiguration;
 import m1.configuration.RPCPort;
 import m1.server.RPCServeurPort;
 import m1.server.ServeurConfiguration;
-import m1.utils.Message;
 import m2.interfaces.InterfaceType;
 
 public class Main {
@@ -28,8 +30,12 @@ public class Main {
 		globalConfiguration.addElement(serveur);
 		globalConfiguration.addElement(client);
 
-		Message m = new Message("Auth-Message");
-		m.setContent("Want connect");
-		serveur.sendMessage(m);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("user", "GOHIER");
+		params.put("password", "password");
+
+		boolean connected = (Boolean) serveur.callService(
+				"AuthenticationService", params);
+		System.out.println("Connected: " + connected);
 	}
 }

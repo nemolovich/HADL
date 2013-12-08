@@ -4,3 +4,5 @@ user.1.firstname=Brian
 user.2.name=COUTABLE
 user.1.name=GOHIER
 user.2.firstname=guillaume
+user.1.password=password
+user.2.password=motdepasse

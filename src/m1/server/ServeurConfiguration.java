@@ -3,12 +3,14 @@ package m1.server;
 import m1.server.authentification.AuthFrom;
 import m1.server.authentification.AuthGlue;
 import m1.server.authentification.AuthProvidedPort;
+import m1.server.authentification.AuthService;
 import m1.server.authentification.AuthTo;
 import m1.server.authentification.AuthentificationConnector;
 import m1.server.authentification.ConnectionManager;
 import m1.server.database.DBFrom;
 import m1.server.database.DBGlue;
 import m1.server.database.DBProvidedPort;
+import m1.server.database.DBService;
 import m1.server.database.DBTo;
 import m1.server.database.DatabaseConnector;
 import m1.server.database.DatabaseManager;
@@ -38,6 +40,12 @@ public class ServeurConfiguration extends Configuration {
 
 		this.addElements(connectionManager, databaseManager, securityManager);
 
+		// instanciation des services
+		AuthService authService = new AuthService();
+		DBService dbService = new DBService();
+		connectionManager.addInterfaces(authService);
+		databaseManager.addInterface(dbService);
+
 		// instanciation des connecteurs
 		AuthentificationConnector authentificationConnector = new AuthentificationConnector(
 				"authentificationConnector");
@@ -45,7 +53,6 @@ public class ServeurConfiguration extends Configuration {
 				"databaseConnector");
 		SecurityConnector securityConnector = new SecurityConnector(
 				"securityConnector");
-
 		this.addElements(authentificationConnector, databaseConnector,
 				securityConnector);
 
@@ -72,7 +79,6 @@ public class ServeurConfiguration extends Configuration {
 			dbGlue = new DBGlue("dbGlue", roleDbFrom, roleDbTo);
 			secGlue = new SecGlue("secGlue", roleSecFrom, roleSecTo);
 		} catch (NonDifferentsTypesException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
