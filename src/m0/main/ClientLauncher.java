@@ -27,11 +27,11 @@ public class ClientLauncher {
 
 		int port = 1100;
 		String url = null;
+		IRemoteConfiguration remote = null;
 		try {
 			url = "//" + InetAddress.getLocalHost().getHostName() + ":" + port
 					+ "/GlobalConfiguration";
-			IRemoteConfiguration remote = (IRemoteConfiguration) Naming
-					.lookup(url);
+			remote = (IRemoteConfiguration) Naming.lookup(url);
 			GlobalConfiguration globalConfiguration = remote.getConfiguration();
 
 			globalConfiguration.addElement(client);
@@ -48,6 +48,15 @@ public class ClientLauncher {
 		System.out.println("Connected: " + client.isConnected());
 
 		client.doRequest("user", "name", "*", Arrays.asList("*"));
-	}
 
+		boolean error = false;
+		while (!error) {
+			try {
+				remote.getConfiguration();
+			} catch (RemoteException e) {
+				error = true;
+			}
+		}
+		System.err.println("Server closed");
+	}
 }

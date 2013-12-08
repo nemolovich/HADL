@@ -1,9 +1,5 @@
 package m1.configuration;
 
-import java.util.Arrays;
-
-import m1.client.ClientComponent;
-import m1.client.ClientProvidedPort;
 import m1.server.RPCServeurPort;
 import m1.server.ServeurConfiguration;
 import m1.server.configuration.RPCConfPort;
@@ -28,9 +24,6 @@ public class GlobalConfiguration extends Configuration {
 		RPCServeurPort rpcServeurPort = new RPCServeurPort(2002);
 		ServeurConfiguration serveur = new ServeurConfiguration(
 				"ServeurConfiguration", rpcServeurPort);
-		ClientProvidedPort clientProvidedPort = new ClientProvidedPort(2003);
-		ClientComponent client1 = new ClientComponent(clientProvidedPort);
-		ClientComponent client2 = new ClientComponent(clientProvidedPort);
 
 		try {
 			RPCBinding rpcBinding = new RPCBinding(rpcConfPort, rpcServeurPort);
@@ -51,6 +44,7 @@ public class GlobalConfiguration extends Configuration {
 			e.printStackTrace();
 		}
 		this.addElement(rpcConnector);
+		serveur.addElement(rpcConnector);
 
 		try {
 			// Conf --> ConfGlue
@@ -68,19 +62,5 @@ public class GlobalConfiguration extends Configuration {
 		}
 
 		this.addElement(serveur);
-		this.addElement(client1);
-		this.addElement(client2);
-
-		client1.setName("GOHIER");
-		client1.setPassword("password");
-
-		client2.setName("COUTABLE");
-		client2.setPassword("motdepasse");
-
-		System.out.println(client1.isConnected());
-		System.out.println(client2.isConnected());
-
-		client1.doRequest("user", "name", "*", Arrays.asList("*"));
-		client2.doRequest("user", "name", "*", Arrays.asList("*"));
 	}
 }

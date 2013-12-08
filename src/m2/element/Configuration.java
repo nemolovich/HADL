@@ -317,14 +317,9 @@ public abstract class Configuration extends Component {
 				for (Element e : this.elements) {
 					if (e instanceof Configuration) {
 						if (((Configuration) e).containsService(serviceName)) {
-							System.out.println("[Configuration{"
-									+ this.getName() + "}] Call service {"
-									+ serviceName + "}");
-							return this.callServiceToConfiguration(serviceName,
-									args, (Configuration) e);
-							// return ((Configuration)
-							// e).callService(serviceName,
-							// args);
+							Object result = this.callServiceToConfiguration(
+									serviceName, args, (Configuration) e);
+							return result;
 						}
 					} else if (e instanceof Component) {
 						synchronized (((Component) e).interfaces) {
@@ -342,7 +337,10 @@ public abstract class Configuration extends Component {
 			System.out.println("[Configuration{" + this.getName()
 					+ "}] Call service {" + toCall.getName() + "}");
 			try {
-				return toCall.call(args);
+				Object result = toCall.call(args);
+				System.out.println("[Configuration{" + this.getName()
+						+ "}] got service response from {" + serviceName + "}");
+				return result;
 			} catch (ServiceException e) {
 				e.printStackTrace();
 				return null;
@@ -365,8 +363,13 @@ public abstract class Configuration extends Component {
 									+ this.getName() + "}] Call service {"
 									+ serviceName + "} on Configuration{"
 									+ c.getName() + "}");
-							return c.callServiceFromPort(serviceName, args,
-									port);
+							Object result = c.callService(serviceName, args);
+							System.out.println("[Configuration{"
+									+ this.getName()
+									+ "}] got service response from {"
+									+ serviceName + "} on Configuration{"
+									+ c.getName() + "}");
+							return result;
 						}
 					}
 				}
@@ -457,14 +460,52 @@ public abstract class Configuration extends Component {
 		return null;
 	}
 
-	public Role getAttachedToPort(Interface i) {
+	public Port getAttachedToRole(Role r) {
 		synchronized (this.links) {
-			System.out.println("For: " + i.getName());
 			for (Link l : this.links) {
 				if (l instanceof Attachement) {
-					System.out.println("Link; " + l.getFrom().getName() + " - "
-							+ l.getTo().getName());
+					System.out.println("Link l:" + l.getName());
+					System.out.println("From:" + l.getFrom().getName()
+							+ ", to: " + l.getTo().getName());
+					if (((Attachement) l).getTo().equals(r)) {
+						System.out.println("[Configuration{" + this.getName()
+								+ "}] Using Attachement{" + l.getName() + "}");
+						System.out.println("\tPort{" + l.getFrom().getName()
+								+ "} -> Role{" + l.getTo().getName() + "}");
+						return (Port) l.getFrom();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Role getAttachedFromPort(Interface i) {
+		synchronized (this.links) {
+			for (Link l : this.links) {
+				if (l instanceof Attachement) {
 					if (((Attachement) l).getTo().equals(i)) {
+						if (l.getFrom() instanceof Role) {
+							System.out.println("[Configuration{"
+									+ this.getName() + "}] Using Attachement{"
+									+ l.getName() + "}");
+							System.out.println("\tRole{"
+									+ l.getFrom().getName() + "} -> Port{"
+									+ l.getTo().getName() + "}");
+							return (Role) l.getFrom();
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Role getAttachedToPort(Interface i) {
+		synchronized (this.links) {
+			for (Link l : this.links) {
+				if (l instanceof Attachement) {
+					if (((Attachement) l).getFrom().equals(i)) {
 						if (l.getTo() instanceof Role) {
 							System.out.println("[Configuration{"
 									+ this.getName() + "}] Using Attachement{"
@@ -482,7 +523,7 @@ public abstract class Configuration extends Component {
 	}
 
 	public Object callServiceFromPort(String serviceName,
-			Map<String, Object> params, Port port) {
+			Map<String, Object> args, Port port) {
 		Role r = this.getAttachedToPort(port);
 		if (r != null) {
 			Port p = this.getAttachedFromRole(this.getRoleConnectedWith(r));
@@ -503,8 +544,14 @@ public abstract class Configuration extends Component {
 											+ "}] Call service {" + serviceName
 											+ "} on Component{" + e.getName()
 											+ "}");
-									return this
-											.callService(serviceName, params);
+									Object result = this.callService(
+											serviceName, args);
+									System.out.println("[Configuration{"
+											+ this.getName()
+											+ "}] got service response from {"
+											+ serviceName + "} on Component{"
+											+ e.getName() + "}");
+									return result;
 								}
 							}
 						}
