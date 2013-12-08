@@ -1,6 +1,6 @@
 package m2.link;
 
-import m2.exception.NonDifferentsTypesException;
+import m2.exception.NoDifferentsTypesException;
 import m2.interfaces.Interface;
 
 public abstract class Attachement extends Link {
@@ -11,10 +11,10 @@ public abstract class Attachement extends Link {
 	private static final long serialVersionUID = -1443154482260170351L;
 
 	public Attachement(String name, Interface from, Interface to)
-			throws NonDifferentsTypesException {
+			throws NoDifferentsTypesException {
 		super(name);
 		if (from.getType().equals(to.getType())) {
-			throw new NonDifferentsTypesException();
+			throw new NoDifferentsTypesException();
 		}
 		super.setFrom(from);
 		super.setTo(to);

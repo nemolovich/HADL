@@ -1,7 +1,7 @@
 package m1.server.database;
 
 import m1.server.authentification.AuthTo;
-import m2.exception.NonDifferentsTypesException;
+import m2.exception.NoDifferentsTypesException;
 import m2.link.Attachement;
 
 public class DBAuthAttachement extends Attachement {
@@ -12,7 +12,7 @@ public class DBAuthAttachement extends Attachement {
 	private static final long serialVersionUID = 4445501485886521453L;
 
 	public DBAuthAttachement(AuthTo from, DBProvidedPort to)
-			throws NonDifferentsTypesException {
+			throws NoDifferentsTypesException {
 		super("DBAuthAttachement", from, to);
 	}
 

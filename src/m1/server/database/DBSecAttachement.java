@@ -1,6 +1,6 @@
 package m1.server.database;
 
-import m2.exception.NonDifferentsTypesException;
+import m2.exception.NoDifferentsTypesException;
 import m2.link.Attachement;
 
 public class DBSecAttachement extends Attachement {
@@ -11,7 +11,7 @@ public class DBSecAttachement extends Attachement {
 	private static final long serialVersionUID = 6643273418515884806L;
 
 	public DBSecAttachement(DBRequiredPort from, DBFrom to)
-			throws NonDifferentsTypesException {
+			throws NoDifferentsTypesException {
 		super("DBSecAttachement", from, to);
 	}
 

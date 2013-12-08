@@ -8,9 +8,9 @@ import m1.server.RPCServeurPort;
 import m1.server.ServeurConfiguration;
 import m1.server.configuration.RPCConfPort;
 import m2.element.Configuration;
-import m2.exception.NonDifferentsTypesException;
-import m2.exception.NonProvidedTypeTo;
-import m2.exception.NonRequiredTypeFrom;
+import m2.exception.NoDifferentsTypesException;
+import m2.exception.NoProvidedTypeTo;
+import m2.exception.NoRequiredTypeFrom;
 
 public class GlobalConfiguration extends Configuration {
 
@@ -35,9 +35,9 @@ public class GlobalConfiguration extends Configuration {
 		try {
 			RPCBinding rpcBinding = new RPCBinding(rpcConfPort, rpcServeurPort);
 			this.addLink(rpcBinding);
-		} catch (NonRequiredTypeFrom e) {
+		} catch (NoRequiredTypeFrom e) {
 			e.printStackTrace();
-		} catch (NonProvidedTypeTo e) {
+		} catch (NoProvidedTypeTo e) {
 			e.printStackTrace();
 		}
 
@@ -47,7 +47,7 @@ public class GlobalConfiguration extends Configuration {
 		try {
 			RPCGlue rpcGlue = new RPCGlue(rpcFrom, rpcTo);
 			rpcConnector.addGlue(rpcGlue);
-		} catch (NonDifferentsTypesException e) {
+		} catch (NoDifferentsTypesException e) {
 			e.printStackTrace();
 		}
 		this.addElement(rpcConnector);
@@ -63,7 +63,7 @@ public class GlobalConfiguration extends Configuration {
 					rpcTo, rpcServeurPort);
 			this.addLink(rpcServerAttachement);
 			serveur.addLink(rpcServerAttachement);
-		} catch (NonDifferentsTypesException e) {
+		} catch (NoDifferentsTypesException e) {
 			e.printStackTrace();
 		}
 
