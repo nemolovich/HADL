@@ -5,10 +5,15 @@ import m2.interfaces.Interface;
 
 public abstract class Attachement extends Link {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -1443154482260170351L;
+
 	public Attachement(String name, Interface from, Interface to)
 			throws NonDifferentsTypesException {
 		super(name);
-		if(from.getType().equals(to.getType())) {
+		if (from.getType().equals(to.getType())) {
 			throw new NonDifferentsTypesException();
 		}
 		super.setFrom(from);

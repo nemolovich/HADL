@@ -5,8 +5,13 @@ import m2.interfaces.Role;
 
 public class DBTo extends Role {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 9206063229159944986L;
+
 	public DBTo() {
-		super("DBTo", InterfaceType.PROVIDED);
+		super("DBTo", InterfaceType.REQUIRED);
 	}
 
 }

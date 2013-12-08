@@ -5,7 +5,12 @@ import m2.interfaces.Port;
 
 public class ClientProvidedPort extends Port {
 
-	public ClientProvidedPort(String name, int numPort) {
-		super(name, InterfaceType.PROVIDED, numPort);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -846565431114505586L;
+
+	public ClientProvidedPort(int numPort) {
+		super("ClientProvidedPort", InterfaceType.PROVIDED, numPort);
 	}
 }

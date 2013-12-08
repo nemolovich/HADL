@@ -23,6 +23,10 @@ import m2.option.TechnicalConstraint;
  */
 public abstract class Configuration extends Component {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 8477547801164504437L;
 	private List<Property> properties;
 	private List<TechnicalConstraint> constraints;
 	private List<Element> elements;
@@ -311,21 +315,21 @@ public abstract class Configuration extends Component {
 		if (toCall == null) {
 			synchronized (this.elements) {
 				for (Element e : this.elements) {
-					if (e instanceof Component) {
+					if (e instanceof Configuration) {
+						if (((Configuration) e).containsService(serviceName)) {
+							System.out.println("[Configuration{"
+									+ this.getName() + "}] Call service {"
+									+ serviceName + "}");
+							return ((Configuration) e).callService(serviceName,
+									args);
+						}
+					} else if (e instanceof Component) {
 						synchronized (((Component) e).interfaces) {
 							for (Interface i : ((Component) e).interfaces) {
 								if (i.getName().equalsIgnoreCase(serviceName)) {
 									toCall = (Service) i;
 								}
 							}
-						}
-					} else if (e instanceof Configuration) {
-						if (((Configuration) e).containsService(serviceName)) {
-							System.out.println("[Configuration{"
-									+ this.getName() + "}] Call service {"
-									+ toCall.getName() + "}");
-							return ((Configuration) e).callService(serviceName,
-									args);
 						}
 					}
 				}
@@ -338,15 +342,17 @@ public abstract class Configuration extends Component {
 				return toCall.call(args);
 			} catch (ServiceException e) {
 				e.printStackTrace();
+				return null;
 			}
 		}
+		System.err.println("[Configuration{" + this.getName()
+				+ "}] Error: Can not find service {" + serviceName + "}");
 		return null;
 	}
 
 	private boolean containsService(String serviceName) {
 		synchronized (this.interfaces) {
 			for (Interface i : this.interfaces) {
-				System.out.println("try with: " + i.getName());
 				if (i instanceof Service) {
 					if (i.getName().equalsIgnoreCase(serviceName)) {
 						return true;

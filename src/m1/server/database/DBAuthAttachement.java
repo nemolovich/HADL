@@ -6,6 +6,11 @@ import m2.link.Attachement;
 
 public class DBAuthAttachement extends Attachement {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 4445501485886521453L;
+
 	public DBAuthAttachement(AuthTo from, DBProvidedPort to)
 			throws NonDifferentsTypesException {
 		super("DBAuthAttachement", from, to);

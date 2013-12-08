@@ -5,9 +5,13 @@ import m2.exception.NonDifferentsTypesException;
 
 public class DBGlue extends Glue {
 
-	public DBGlue(String name, DBFrom from, DBTo to)
-			throws NonDifferentsTypesException {
-		super(name, from, to);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -2154274878073562356L;
+
+	public DBGlue(DBFrom from, DBTo to) throws NonDifferentsTypesException {
+		super("DBGlue", from, to);
 	}
 
 }

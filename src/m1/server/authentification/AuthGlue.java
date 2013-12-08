@@ -5,9 +5,14 @@ import m2.exception.NonDifferentsTypesException;
 
 public class AuthGlue extends Glue {
 
-	public AuthGlue(String name, AuthFrom from, AuthTo to)
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -4772873788508288655L;
+
+	public AuthGlue(AuthFrom from, AuthTo to)
 			throws NonDifferentsTypesException {
-		super(name, from, to);
+		super("AuthGlue", from, to);
 	}
 
 }

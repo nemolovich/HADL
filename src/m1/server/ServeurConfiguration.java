@@ -5,6 +5,7 @@ import m1.server.authentification.AuthFrom;
 import m1.server.authentification.AuthGlue;
 import m1.server.authentification.AuthProvidedPort;
 import m1.server.authentification.AuthRequiredPort;
+import m1.server.authentification.AuthSecAttachement;
 import m1.server.authentification.AuthService;
 import m1.server.authentification.AuthTo;
 import m1.server.authentification.AuthentificationConnector;
@@ -14,14 +15,19 @@ import m1.server.database.DBFrom;
 import m1.server.database.DBGlue;
 import m1.server.database.DBProvidedPort;
 import m1.server.database.DBRequiredPort;
-import m1.server.database.DBService;
+import m1.server.database.DBSecAttachement;
+import m1.server.database.DBServiceAuth;
+import m1.server.database.DBServiceRequest;
 import m1.server.database.DBTo;
 import m1.server.database.DatabaseConnector;
 import m1.server.database.DatabaseManager;
+import m1.server.security.SecAuthAttachement;
+import m1.server.security.SecDBAttachement;
 import m1.server.security.SecFrom;
 import m1.server.security.SecGlue;
 import m1.server.security.SecProvidedPort;
 import m1.server.security.SecRequiredPort;
+import m1.server.security.SecService;
 import m1.server.security.SecTo;
 import m1.server.security.SecurityConnector;
 import m1.server.security.SecurityManager;
@@ -30,6 +36,11 @@ import m2.exception.NonDifferentsTypesException;
 import m2.interfaces.Interface;
 
 public class ServeurConfiguration extends Configuration {
+
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -5873111006021950767L;
 
 	public ServeurConfiguration(String name, Interface intfce) {
 		super(name, intfce);
@@ -44,30 +55,29 @@ public class ServeurConfiguration extends Configuration {
 
 		// instanciation des Managers
 		ConnectionManager connectionManager = new ConnectionManager(
-				"connectionManager", authProvidedPort);
+				authProvidedPort);
 		connectionManager.addInterface(authRequiredPort);
-		DatabaseManager databaseManager = new DatabaseManager(
-				"dataBaseManager", dbProvidedPort);
+		DatabaseManager databaseManager = new DatabaseManager(dbProvidedPort);
 		databaseManager.addInterface(dbRequiredPort);
-		SecurityManager securityManager = new SecurityManager(
-				"securityManager", secProvidedPort);
+		SecurityManager securityManager = new SecurityManager(secProvidedPort);
 		securityManager.addInterface(secRequiredPort);
 
 		this.addElements(connectionManager, databaseManager, securityManager);
 
 		// instanciation des services
 		AuthService authService = new AuthService();
-		DBService dbService = new DBService();
+		DBServiceRequest dbServiceRequest = new DBServiceRequest();
+		DBServiceAuth dbServiceAuth = new DBServiceAuth();
+		SecService secService = new SecService();
 		connectionManager.addInterfaces(authService);
-		databaseManager.addInterface(dbService);
+		databaseManager.addInterface(dbServiceRequest);
+		databaseManager.addInterface(dbServiceAuth);
+		securityManager.addInterface(secService);
 
 		// instanciation des connecteurs
-		AuthentificationConnector authentificationConnector = new AuthentificationConnector(
-				"authentificationConnector");
-		DatabaseConnector databaseConnector = new DatabaseConnector(
-				"databaseConnector");
-		SecurityConnector securityConnector = new SecurityConnector(
-				"securityConnector");
+		AuthentificationConnector authentificationConnector = new AuthentificationConnector();
+		DatabaseConnector databaseConnector = new DatabaseConnector();
+		SecurityConnector securityConnector = new SecurityConnector();
 		this.addElements(authentificationConnector, databaseConnector,
 				securityConnector);
 
@@ -83,14 +93,13 @@ public class ServeurConfiguration extends Configuration {
 
 		// instanciation des Glues
 		try {
-			AuthGlue authGlue = new AuthGlue("authGlue", roleAuthFrom,
-					roleAuthTo);
+			AuthGlue authGlue = new AuthGlue(roleAuthFrom, roleAuthTo);
 			authentificationConnector.addGlues(authGlue);
 			authentificationConnector.addRoles(roleAuthFrom, roleAuthTo);
-			DBGlue dbGlue = new DBGlue("dbGlue", roleDbFrom, roleDbTo);
+			DBGlue dbGlue = new DBGlue(roleDbFrom, roleDbTo);
 			databaseConnector.addGlues(dbGlue);
 			databaseConnector.addRoles(roleDbFrom, roleDbTo);
-			SecGlue secGlue = new SecGlue("secGlue", roleSecFrom, roleSecTo);
+			SecGlue secGlue = new SecGlue(roleSecFrom, roleSecTo);
 			securityConnector.addGlues(secGlue);
 			securityConnector.addRoles(roleSecFrom, roleSecTo);
 		} catch (NonDifferentsTypesException e) {
@@ -99,12 +108,30 @@ public class ServeurConfiguration extends Configuration {
 
 		// instanciation des Attachements
 		try {
+			// Auth --> AuthGlue
 			AuthDBAttachement authDBAttachement = new AuthDBAttachement(
 					authRequiredPort, roleAuthFrom);
 			this.addLink(authDBAttachement);
+			// AuthGlue --> DB
 			DBAuthAttachement dbAuthAttachement = new DBAuthAttachement(
 					roleAuthTo, dbProvidedPort);
 			this.addLink(dbAuthAttachement);
+			// DB --> DBGlue
+			DBSecAttachement dbSecAttachement = new DBSecAttachement(
+					dbRequiredPort, roleDbFrom);
+			this.addLink(dbSecAttachement);
+			// DBGlue --> Sec
+			SecDBAttachement secDBAttachement = new SecDBAttachement(roleDbTo,
+					secProvidedPort);
+			this.addLink(secDBAttachement);
+			// Sec --> SecGlue
+			SecAuthAttachement secAuthAttachement = new SecAuthAttachement(
+					secRequiredPort, roleSecFrom);
+			this.addLink(secAuthAttachement);
+			// SecGlue --> Auth
+			AuthSecAttachement authSecAttachement = new AuthSecAttachement(
+					roleSecTo, authProvidedPort);
+			this.addLink(authSecAttachement);
 		} catch (NonDifferentsTypesException e1) {
 			e1.printStackTrace();
 		}

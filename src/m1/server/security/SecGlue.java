@@ -5,9 +5,13 @@ import m2.exception.NonDifferentsTypesException;
 
 public class SecGlue extends Glue {
 
-	public SecGlue(String name, SecFrom from, SecTo to)
-			throws NonDifferentsTypesException {
-		super(name, from, to);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 2992935445291841594L;
+
+	public SecGlue(SecFrom from, SecTo to) throws NonDifferentsTypesException {
+		super("SecGlue", from, to);
 	}
 
 }

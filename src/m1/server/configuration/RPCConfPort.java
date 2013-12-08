@@ -10,6 +10,11 @@ import m2.interfaces.Port;
  */
 public class RPCConfPort extends Port {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -7743429607010173678L;
+
 	public RPCConfPort(String name, int numPort) {
 		super(name, InterfaceType.REQUIRED, numPort);
 	}

@@ -5,6 +5,10 @@ import m2.interfaces.Interface;
 
 public abstract class Link extends M2Object {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 195158201503658300L;
 	private Interface from;
 	private Interface to;
 

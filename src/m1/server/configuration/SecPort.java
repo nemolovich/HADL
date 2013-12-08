@@ -10,6 +10,11 @@ import m2.interfaces.Port;
  */
 public class SecPort extends Port {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 2115112574326645552L;
+
 	public SecPort(String name, int numPort) {
 		super(name, InterfaceType.REQUIRED, numPort);
 	}

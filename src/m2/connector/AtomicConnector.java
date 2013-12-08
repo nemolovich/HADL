@@ -14,6 +14,10 @@ import m2.interfaces.Role;
  */
 public abstract class AtomicConnector extends Element {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 744026146639430567L;
 	private List<Role> roles;
 	private List<Glue> glues;
 

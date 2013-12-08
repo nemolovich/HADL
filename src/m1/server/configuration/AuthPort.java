@@ -10,6 +10,11 @@ import m2.interfaces.Port;
  */
 public class AuthPort extends Port {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -9186142971367299064L;
+
 	public AuthPort(String name, int numPort) {
 		super(name, InterfaceType.REQUIRED, numPort);
 	}

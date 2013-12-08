@@ -5,8 +5,13 @@ import m2.interfaces.Role;
 
 public class SecTo extends Role {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 1845716123717491847L;
+
 	public SecTo() {
-		super("SecTo", InterfaceType.PROVIDED);
+		super("SecTo", InterfaceType.REQUIRED);
 	}
 
 }

@@ -5,6 +5,11 @@ import m2.interfaces.Role;
 
 public class AuthTo extends Role {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 6746980025783535857L;
+
 	public AuthTo() {
 		super("AuthTo", InterfaceType.REQUIRED);
 	}

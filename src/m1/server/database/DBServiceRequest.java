@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,13 +15,21 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import m2.exception.InsufficientRightsForService;
 import m2.exception.ServiceException;
+import m2.exception.WrongServiceArgumentType;
+import m2.exception.WrongServiceArguments;
+import m2.exception.WrongServiceNumberArguments;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 import fr.univ.nantes.StringUtil.StringUtil;
 
-public class DBService extends Service {
+public class DBServiceRequest extends Service {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 3050584922538373576L;
 	private Properties data = null;
 	private Properties dbSchema = null;
 	private Properties lastIdOfTable = null;
@@ -34,38 +43,102 @@ public class DBService extends Service {
 	private static final String LASTID = "./sql/LastIds.properties";
 	private static final String LASTIDCOMMENT = "table=lastId";
 
-	public DBService() {
+	public DBServiceRequest() {
 		super("DBServiceRequest", InterfaceType.PROVIDED);
 		this.addParameter("TABLE", String.class);
 		this.addParameter("GET_COLUMN", String.class);
-		this.addParameter("VALUE", Object.class);
-		this.addParameter("RETURN_COLUMN", String.class);
-		this.setReturnType(Object.class);
+		this.addParameter("VALUE", String.class);
+		this.addParameter("RETURN_COLUMNS", List.class);
+		this.setReturnType(List.class);
 		this.connect();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object call(Map<String, Object> args) throws ServiceException {
 		this.describe(args);
-		String entity = (String) args.get("TABLE");
-		String attName = (String) args.get("GET_COLUMN");
-		Map<Integer, String> value = this.getValue(entity, attName);
-		if (value.size() < 1) {
-			System.err.println("[DBService] No match attribute found");
-			return null;
+		if (!args.containsKey("user") || !args.containsKey("password")) {
+			throw new WrongServiceArguments();
 		}
-		Integer id = null;
-		for (Integer i : value.keySet()) {
-			if (value.get(i).equals(args.get("VALUE").toString())) {
-				id = i;
+		Map<String, Object> authParams = new HashMap<String, Object>();
+		authParams.put("user", args.get("user"));
+		authParams.put("password", args.get("password"));
+		boolean authorized = (Boolean) this.component.callService("SecService",
+				authParams);
+		if (!authorized) {
+			throw new InsufficientRightsForService(this.getName());
+		}
+		if (args.size() != this.args.size() + 2) {
+			throw new WrongServiceNumberArguments(this.args.size() + 2);
+		}
+		synchronized (this.args) {
+			for (String param : this.args.keySet()) {
+				if (!args.containsKey(param)) {
+					throw new WrongServiceArguments();
+				} else if (!this.args.get(param).isAssignableFrom(
+						args.get(param).getClass())) {
+					throw new WrongServiceArgumentType(param,
+							this.args.get(param));
+				}
 			}
 		}
-		if (id == null) {
-			System.err.println("[DBService] No match value found");
+		String entity = (String) args.get("TABLE");
+		String attName = (String) args.get("GET_COLUMN");
+		String value = args.get("VALUE").toString();
+		List<Integer> ids = new ArrayList<Integer>();
+		if (value.equalsIgnoreCase("*")) {
+			ids = this.getIdsFrom(entity);
+		} else if (attName.equalsIgnoreCase("id")) {
+			ids.add(Integer.parseInt(value));
+		} else {
+			Map<Integer, String> values = this.getValue(entity, attName);
+			if (values.size() < 1) {
+				System.err.println("[DBServiceRequest] No match "
+						+ "attribute found");
+				return null;
+			}
+			for (Integer i : values.keySet()) {
+				if (values.get(i).equals(value)) {
+					ids.add(i);
+				}
+			}
 		}
-		String result = this.getAttrValue(entity,
-				(String) args.get("RETURN_COLUMN"), id);
+		List<String> columns = (List<String>) args.get("RETURN_COLUMNS");
+		List<String> result = new ArrayList<String>();
+		for (int i : ids) {
+			String line = "";
+			if (columns.contains("*")) {
+				line = Arrays.toString(this.getAttrValues(entity, i).toArray());
+			} else {
+				line = "[";
+				boolean first = true;
+				for (String s : columns) {
+					if (first) {
+						first = false;
+					} else {
+						line += ", ";
+					}
+					line += this.getAttrValue(entity, s, i);
+				}
+				line += "]";
+			}
+			result.add(line);
+		}
 		return result;
+	}
+
+	private List<Integer> getIdsFrom(String entity) {
+		List<Integer> ids = new ArrayList<Integer>();
+		for (Object key : this.data.keySet()) {
+			String[] keyString = key.toString().split("\\.");
+			if (keyString[0].equalsIgnoreCase(entity)) {
+				Integer id = Integer.decode(keyString[1]);
+				if (!ids.contains(id)) {
+					ids.add(id);
+				}
+			}
+		}
+		return ids;
 	}
 
 	/**
@@ -75,7 +148,7 @@ public class DBService extends Service {
 	 * @return {@link Boolean boolean} - <code>true</code> if the file has been
 	 *         correctly read, <code>false</code> otherwise
 	 */
-	public boolean connect() {
+	private boolean connect() {
 		boolean opened = false;
 		try {
 			this.data = new Properties();
@@ -93,7 +166,7 @@ public class DBService extends Service {
 	/**
 	 * Close the database
 	 */
-	public void close() {
+	private void close() {
 		this.data = null;
 	}
 
@@ -179,7 +252,8 @@ public class DBService extends Service {
 	 * 
 	 * @return the database in text format
 	 */
-	public String displayDataBase() {
+	@SuppressWarnings("unused")
+	private String displayDataBase() {
 		String dataBase = "";
 		for (Object key : this.data.keySet()) {
 			System.out.println("Key: " + key + " = value: "
@@ -203,15 +277,18 @@ public class DBService extends Service {
 	 *            the attribute's name
 	 * @return a map
 	 */
-	public Map<Integer, String> getValue(String entity, String attributeName) {
+	protected Map<Integer, String> getValue(String entity, String attributeName) {
 		String[] keyString;
 		Map<Integer, String> values = new HashMap<Integer, String>();
 		for (Object key : this.data.keySet()) {
 			keyString = key.toString().split("\\.");
-			if (keyString[0].equals(entity)
-					&& keyString[2].equals(attributeName)) {
-				values.put(Integer.decode(keyString[1]),
-						(String) this.data.get(key));
+			if (keyString[0].equals(entity)) {
+				if (keyString[2].equals(attributeName)) {
+					values.put(Integer.decode(keyString[1]),
+							(String) this.data.get(key));
+				} else if (attributeName.equalsIgnoreCase("id")) {
+					values.put(Integer.decode(keyString[1]), keyString[1]);
+				}
 			}
 		}
 		return values;
@@ -229,11 +306,32 @@ public class DBService extends Service {
 	 *            the entitie's id
 	 * @return the attribute's value
 	 */
-	public String getAttrValue(String entity, String attName, int id) {
+	protected String getAttrValue(String entity, String attName, int id) {
 		String attValue = "";
 		Map<Integer, String> values = this.getValue(entity, attName);
 		attValue = values.get(id);
 		return attValue;
+	}
+
+	/**
+	 * Return all attributes' value of a specific entity, with specific id
+	 * 
+	 * @param entity
+	 *            the entity
+	 * @param id
+	 *            the entitie's id
+	 * @return the attributes' value
+	 */
+	private List<String> getAttrValues(String entity, Integer id) {
+		this.openSchema();
+		List<String> attValues = new ArrayList<String>();
+		for (String att : this.getAttributesName(entity)) {
+			Map<Integer, String> values = this.getValue(entity, att);
+			String attValue = values.get(id);
+			attValues.add(attValue);
+		}
+		this.closeSchema();
+		return attValues;
 	}
 
 	/**
@@ -247,7 +345,8 @@ public class DBService extends Service {
 	 *         created, <code>false</code> otherwise (include the case where the
 	 *         table already exist)
 	 */
-	public boolean createTable(String tableName, String... attributs) {
+	@SuppressWarnings("unused")
+	private boolean createTable(String tableName, String... attributs) {
 		boolean created = true;
 
 		// ouverture du fichier du schéma de la base de données
@@ -287,7 +386,8 @@ public class DBService extends Service {
 		return created;
 	}
 
-	public boolean addTuple(String tableName, String... attributsValues) {
+	@SuppressWarnings("unused")
+	private boolean addTuple(String tableName, String... attributsValues) {
 		boolean added = true;
 
 		// ouverture du fichier contenant le dernier Id de chaque table
@@ -355,7 +455,8 @@ public class DBService extends Service {
 	 * @return {@link Boolean boolean} - <code>true</code> if the tuple had been
 	 *         remove, <code>false</code> otherwise.
 	 */
-	public boolean removeTuple(String tableName, int id) {
+	@SuppressWarnings("unused")
+	private boolean removeTuple(String tableName, int id) {
 		boolean removed = true;
 		// overture des fichiers de la bd
 		removed &= this.connect();
@@ -398,7 +499,8 @@ public class DBService extends Service {
 	 * @return {@link Boolean boolean} - <code>true</code> if the table had been
 	 *         removed, <code>false</code> otherwise.
 	 */
-	public boolean removeTable(String tableName) {
+	@SuppressWarnings("unused")
+	private boolean removeTable(String tableName) {
 		boolean removed = true;
 		// overture des fichiers de la bd
 		removed &= this.connect();

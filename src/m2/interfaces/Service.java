@@ -8,6 +8,10 @@ import m2.exception.ServiceException;
 
 public abstract class Service extends Interface {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 6879147866222832457L;
 	protected Map<String, Class<?>> args;
 	protected Class<?> returnType;
 

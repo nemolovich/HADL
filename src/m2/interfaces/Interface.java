@@ -4,6 +4,10 @@ import m2.M2Object;
 import m2.element.Component;
 
 public abstract class Interface extends M2Object {
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -7103716449792142262L;
 	private InterfaceType type;
 	protected Component component;
 

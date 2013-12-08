@@ -4,7 +4,12 @@ import m2.element.Component;
 
 public class DatabaseManager extends Component {
 
-	public DatabaseManager(String name, DBProvidedPort port) {
-		super(name, port);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -4897206911154718446L;
+
+	public DatabaseManager(DBProvidedPort port) {
+		super("DatabaseManager", port);
 	}
 }

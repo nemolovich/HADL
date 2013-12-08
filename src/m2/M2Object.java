@@ -1,5 +1,7 @@
 package m2;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Guillaume Coutable, Brian Gohier
@@ -8,8 +10,12 @@ package m2;
  *         modele M2
  * 
  */
-public abstract class M2Object {
+public abstract class M2Object implements Serializable {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 801688483389088629L;
 	private String name;
 
 	public M2Object(String name) {

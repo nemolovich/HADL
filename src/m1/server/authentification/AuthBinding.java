@@ -7,7 +7,12 @@ import m2.link.Binding;
 
 public class AuthBinding extends Binding {
 
-	//TODO: change type of attributes from and to
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -1116767445390450109L;
+
+	// TODO: change type of attributes from and to
 	public AuthBinding(String name, AuthPort from, AuthProvidedPort to)
 			throws NonRequiredTypeFrom, NonProvidedTypeTo {
 		super(name, from, to);

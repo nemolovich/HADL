@@ -5,8 +5,13 @@ import m2.interfaces.Port;
 
 public class RPCPort extends Port {
 
-	public RPCPort(String name, int numPort) {
-		super(name, InterfaceType.REQUIRED, numPort);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 4285102881967215025L;
+
+	public RPCPort(int numPort) {
+		super("RPCPort", InterfaceType.REQUIRED, numPort);
 	}
 
 }

@@ -1,14 +1,19 @@
 package m1.server.security;
 
-import m1.server.database.DBProvidedPort;
+import m1.server.database.DBTo;
 import m2.exception.NonDifferentsTypesException;
 import m2.link.Attachement;
 
 public class SecDBAttachement extends Attachement {
 
-	public SecDBAttachement(String name, SecRequiredPort from, DBProvidedPort to)
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -6929294546613998427L;
+
+	public SecDBAttachement(DBTo from, SecProvidedPort to)
 			throws NonDifferentsTypesException {
-		super(name, from, to);
+		super("SecDBAttachement", from, to);
 	}
 
 }

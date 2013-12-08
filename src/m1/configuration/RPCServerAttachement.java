@@ -6,6 +6,11 @@ import m2.link.Attachement;
 
 public class RPCServerAttachement extends Attachement {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 2367785003488215662L;
+
 	public RPCServerAttachement(String name, Interface from, Interface to)
 			throws NonDifferentsTypesException {
 		super(name, from, to);

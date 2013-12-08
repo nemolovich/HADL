@@ -8,13 +8,17 @@ import m2.interfaces.Role;
 
 public class DatabaseConnector extends AtomicConnector {
 
-	public DatabaseConnector(String name, List<Role> roles,
-			List<Glue> glues) {
-		super(name, roles, glues);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -3743985868765486544L;
+
+	public DatabaseConnector(List<Role> roles, List<Glue> glues) {
+		super("DatabaseConnector", roles, glues);
 	}
 
-	public DatabaseConnector(String name) {
-		super(name);
+	public DatabaseConnector() {
+		super("DatabaseConnector");
 	}
 
 }

@@ -5,8 +5,13 @@ import m2.interfaces.Port;
 
 public class RPCServeurPort extends Port {
 
-	public RPCServeurPort(String name, InterfaceType type, int port) {
-		super(name, type, port);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -472805692514703021L;
+
+	public RPCServeurPort(int port) {
+		super("RPCServeurPort", InterfaceType.PROVIDED, port);
 	}
 
 }

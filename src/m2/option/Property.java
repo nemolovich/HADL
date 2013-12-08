@@ -4,6 +4,10 @@ import m2.M2Object;
 
 public class Property extends M2Object {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -1592936603078974071L;
 	private Object value;
 
 	public Property(String name, Object value) {

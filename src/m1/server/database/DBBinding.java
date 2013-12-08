@@ -7,7 +7,12 @@ import m2.link.Binding;
 
 public class DBBinding extends Binding {
 
-	//TODO: change type of attributes from and to
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -5203226521199223266L;
+
+	// TODO: change type of attributes from and to
 	public DBBinding(String name, DBPort from, DBProvidedPort to)
 			throws NonRequiredTypeFrom, NonProvidedTypeTo {
 		super(name, from, to);

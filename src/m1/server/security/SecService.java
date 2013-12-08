@@ -1,4 +1,4 @@
-package m1.server.authentification;
+package m1.server.security;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,18 +11,17 @@ import m2.exception.WrongServiceNumberArguments;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 
-public class AuthService extends Service {
+public class SecService extends Service {
 
 	/**
 	 * ID
 	 */
-	private static final long serialVersionUID = 5842472905027699735L;
+	private static final long serialVersionUID = 3822143665699092214L;
 
-	public AuthService() {
-		super("AuthService", InterfaceType.PROVIDED);
+	public SecService() {
+		super("SecService", InterfaceType.PROVIDED);
 		this.addParameter("user", String.class);
 		this.addParameter("password", String.class);
-		this.setReturnType(boolean.class);
 	}
 
 	@Override
@@ -35,8 +34,8 @@ public class AuthService extends Service {
 			for (String param : this.args.keySet()) {
 				if (!args.containsKey(param)) {
 					throw new WrongServiceArguments();
-				} else if (!this.args.get(param).isAssignableFrom(
-						args.get(param).getClass())) {
+				} else if (!args.get(param).getClass()
+						.isAssignableFrom(this.args.get(param))) {
 					throw new WrongServiceArgumentType(param,
 							this.args.get(param));
 				}
@@ -46,8 +45,14 @@ public class AuthService extends Service {
 		params.put("user", args.get("user"));
 		params.put("password", args.get("password"));
 		System.out.println("[Service{" + this.getName() + "}] Call service {"
-				+ "DBServiceAuth" + "} with params "
+				+ "AuthService" + "} with params "
 				+ Arrays.toString(params.entrySet().toArray()));
-		return this.component.callService("DBServiceAuth", params);
+		String password = (String) this.component.callService("AuthService",
+				params);
+		if (password == null) {
+			return false;
+		}
+		return (password.equals(args.get("password")));
 	}
+
 }

@@ -4,8 +4,13 @@ import m2.element.Component;
 
 public class ConnectionManager extends Component {
 
-	public ConnectionManager(String name, AuthProvidedPort port) {
-		super(name, port);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -7903324595112837244L;
+
+	public ConnectionManager(AuthProvidedPort port) {
+		super("ConnectionManager", port);
 	}
 
 }

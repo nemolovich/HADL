@@ -8,6 +8,11 @@ import m2.interfaces.Role;
 
 public class RPCConnector extends AtomicConnector {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 8555718792635210235L;
+
 	public RPCConnector(String name, List<Role> roles, List<Glue> glues) {
 		super(name, roles, glues);
 		// TODO Auto-generated constructor stub

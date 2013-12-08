@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import m2.exception.ServiceException;
 import m2.interfaces.Interface;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Port;
@@ -17,6 +18,10 @@ import m2.link.Link;
  */
 public abstract class Component extends Element {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -6787847406204077540L;
 	protected List<Link> links;
 	protected List<Interface> interfaces;
 
@@ -201,7 +206,8 @@ public abstract class Component extends Element {
 		}
 	}
 
-	public Object callService(String serviceName, Map<String, Object> params) {
+	public Object callService(String serviceName, Map<String, Object> params)
+			throws ServiceException {
 		synchronized (this.interfaces) {
 			for (Interface i : this.interfaces) {
 				if (i instanceof Port

@@ -11,6 +11,10 @@ import m2.interfaces.Role;
  */
 public abstract class Glue extends M2Object {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -5135795395012078687L;
 	private Role from;
 	private Role to;
 

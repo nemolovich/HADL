@@ -8,13 +8,17 @@ import m2.interfaces.Role;
 
 public class AuthentificationConnector extends AtomicConnector {
 
-	public AuthentificationConnector(String name, List<Role> roles,
-			List<Glue> glues) {
-		super(name, roles, glues);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 7554934654074295340L;
+
+	public AuthentificationConnector(List<Role> roles, List<Glue> glues) {
+		super("AuthentificationConnector", roles, glues);
 	}
 
-	public AuthentificationConnector(String name) {
-		super(name);
+	public AuthentificationConnector() {
+		super("AuthentificationConnector");
 	}
 
 }

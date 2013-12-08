@@ -1,7 +1,5 @@
-package m1.server.authentification;
+package m1.server.database;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 import m2.exception.ServiceException;
@@ -11,15 +9,15 @@ import m2.exception.WrongServiceNumberArguments;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 
-public class AuthService extends Service {
+public class DBServiceAuth extends Service {
 
 	/**
 	 * ID
 	 */
-	private static final long serialVersionUID = 5842472905027699735L;
+	private static final long serialVersionUID = 7602708463944611257L;
 
-	public AuthService() {
-		super("AuthService", InterfaceType.PROVIDED);
+	public DBServiceAuth() {
+		super("DBServiceAuth", InterfaceType.PROVIDED);
 		this.addParameter("user", String.class);
 		this.addParameter("password", String.class);
 		this.setReturnType(boolean.class);
@@ -42,12 +40,24 @@ public class AuthService extends Service {
 				}
 			}
 		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("user", args.get("user"));
-		params.put("password", args.get("password"));
-		System.out.println("[Service{" + this.getName() + "}] Call service {"
-				+ "DBServiceAuth" + "} with params "
-				+ Arrays.toString(params.entrySet().toArray()));
-		return this.component.callService("DBServiceAuth", params);
+		DBServiceRequest dbServiceRequest = new DBServiceRequest();
+		String user = (String) args.get("user");
+		Map<Integer, String> value = dbServiceRequest.getValue("user", "name");
+		if (value.size() < 1) {
+			System.err.println("[DBServiceAuth] No match attribute found");
+			return false;
+		}
+		Integer id = null;
+		for (Integer i : value.keySet()) {
+			if (value.get(i).equals(user)) {
+				id = i;
+			}
+		}
+		if (id == null) {
+			System.err.println("[DBServiceAuth] No match value found");
+			return false;
+		}
+		return dbServiceRequest.getAttrValue("user", "password", id);
 	}
+
 }

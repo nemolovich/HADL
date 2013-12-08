@@ -1,14 +1,19 @@
 package m1.server.authentification;
 
-import m1.server.security.SecProvidedPort;
+import m1.server.security.SecTo;
 import m2.exception.NonDifferentsTypesException;
 import m2.link.Attachement;
 
 public class AuthSecAttachement extends Attachement {
 
-	public AuthSecAttachement(String name, AuthRequiredPort from, SecProvidedPort to)
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 7337981683650679864L;
+
+	public AuthSecAttachement(SecTo from, AuthProvidedPort to)
 			throws NonDifferentsTypesException {
-		super(name, from, to);
+		super("AuthSecAttachement", from, to);
 	}
 
 }

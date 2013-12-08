@@ -7,7 +7,12 @@ import m2.link.Binding;
 
 public class SecBinding extends Binding {
 
-	//TODO: change type of attributes from and to
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 8180147446432825904L;
+
+	// TODO: change type of attributes from and to
 	public SecBinding(String name, AuthPort from, SecProvidedPort to)
 			throws NonRequiredTypeFrom, NonProvidedTypeTo {
 		super(name, from, to);

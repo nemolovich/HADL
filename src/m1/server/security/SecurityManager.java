@@ -4,8 +4,13 @@ import m2.element.Component;
 
 public class SecurityManager extends Component {
 
-	public SecurityManager(String name, SecProvidedPort port) {
-		super(name, port);
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = -8994268271976854385L;
+
+	public SecurityManager(SecProvidedPort port) {
+		super("SecurityManager", port);
 	}
 
 }

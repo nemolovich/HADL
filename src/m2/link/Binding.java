@@ -7,13 +7,18 @@ import m2.interfaces.InterfaceType;
 
 public abstract class Binding extends Link {
 
+	/**
+	 * ID
+	 */
+	private static final long serialVersionUID = 4544666909164188962L;
+
 	public Binding(String name, Interface from, Interface to)
 			throws NonRequiredTypeFrom, NonProvidedTypeTo {
 		super(name);
-		if(!from.getType().equals(InterfaceType.REQUIRED)) {
+		if (!from.getType().equals(InterfaceType.REQUIRED)) {
 			throw new NonRequiredTypeFrom();
 		}
-		if(!to.getType().equals(InterfaceType.PROVIDED)) {
+		if (!to.getType().equals(InterfaceType.PROVIDED)) {
 			throw new NonProvidedTypeTo();
 		}
 		super.setFrom(from);
