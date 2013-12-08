@@ -5,8 +5,8 @@ import m2.interfaces.Role;
 
 public class DBFrom extends Role {
 
-	public DBFrom(String name) {
-		super(name, InterfaceType.REQUIRED);
+	public DBFrom() {
+		super("DBFrom", InterfaceType.REQUIRED);
 	}
 
 }

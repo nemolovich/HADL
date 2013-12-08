@@ -5,8 +5,8 @@ import m2.interfaces.Role;
 
 public class DBTo extends Role {
 
-	public DBTo(String name) {
-		super(name, InterfaceType.PROVIDED);
+	public DBTo() {
+		super("DBTo", InterfaceType.PROVIDED);
 	}
 
 }

@@ -1,14 +1,14 @@
 package m1.server.database;
 
-import m1.server.authentification.AuthProvidedPort;
+import m1.server.authentification.AuthTo;
 import m2.exception.NonDifferentsTypesException;
 import m2.link.Attachement;
 
 public class DBAuthAttachement extends Attachement {
 
-	public DBAuthAttachement(String name, DBRequiredPort from, AuthProvidedPort to)
+	public DBAuthAttachement(AuthTo from, DBProvidedPort to)
 			throws NonDifferentsTypesException {
-		super(name, from, to);
+		super("DBAuthAttachement", from, to);
 	}
 
 }

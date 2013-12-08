@@ -45,7 +45,7 @@ public class AuthService extends Service {
 		System.out.println("[Service{" + this.getName() + "}] Call service {"
 				+ "DBServiceRequest" + "} with params "
 				+ Arrays.toString(params.entrySet().toArray()));
-		String password = (String) this.configuration.callService(
+		String password = (String) this.component.callService(
 				"DBServiceRequest", params);
 		return (password.equals(args.get("password")));
 	}

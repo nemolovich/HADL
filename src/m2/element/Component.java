@@ -2,8 +2,11 @@ package m2.element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import m2.interfaces.Interface;
+import m2.interfaces.InterfaceType;
+import m2.interfaces.Port;
 import m2.link.Link;
 
 /**
@@ -121,7 +124,7 @@ public abstract class Component extends Element {
 	 */
 	public boolean addInterface(Interface intfce) {
 		synchronized (this.interfaces) {
-			intfce.setConfiguration(this.configuration);
+			intfce.setComponent(this);
 			return this.interfaces.add(intfce);
 		}
 	}
@@ -137,7 +140,7 @@ public abstract class Component extends Element {
 		synchronized (this.interfaces) {
 			synchronized (interfaces) {
 				for (Interface itf : interfaces) {
-					itf.setConfiguration(this.configuration);
+					itf.setComponent(this);
 				}
 			}
 			return this.interfaces.addAll(interfaces);
@@ -155,7 +158,7 @@ public abstract class Component extends Element {
 		boolean added = true;
 		synchronized (this.interfaces) {
 			for (Interface i : interfaces) {
-				i.setConfiguration(this.configuration);
+				i.setComponent(this);
 				added &= this.interfaces.add(i);
 			}
 		}
@@ -175,4 +178,19 @@ public abstract class Component extends Element {
 		}
 	}
 
+	public Object callService(String serviceName, Map<String, Object> params) {
+		synchronized (this.interfaces) {
+			for (Interface i : this.interfaces) {
+				if (i instanceof Port
+						&& ((Port) i).getType().equals(InterfaceType.REQUIRED)) {
+					System.out.println("[Component{" + this.getName()
+							+ "}] Call service {" + serviceName + "} on port {"
+							+ i.getName() + "}");
+					return this.configuration.callServiceFromPort(serviceName,
+							params, (Port) i);
+				}
+			}
+		}
+		return null;
+	}
 }

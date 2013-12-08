@@ -27,6 +27,10 @@ public abstract class AtomicConnector extends Element {
 		this(name, new ArrayList<Role>(), new ArrayList<Glue>());
 	}
 
+	public List<Glue> getGlues() {
+		return this.glues;
+	}
+
 	/**
 	 * Add a role
 	 * 

@@ -46,6 +46,7 @@ public class DBService extends Service {
 
 	@Override
 	public Object call(Map<String, Object> args) throws ServiceException {
+		this.describe(args);
 		String entity = (String) args.get("TABLE");
 		String attName = (String) args.get("GET_COLUMN");
 		Map<Integer, String> value = this.getValue(entity, attName);

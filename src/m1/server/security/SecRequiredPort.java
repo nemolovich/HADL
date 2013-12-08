@@ -5,8 +5,8 @@ import m2.interfaces.Port;
 
 public class SecRequiredPort extends Port {
 
-	public SecRequiredPort(String name, int numPort) {
-		super(name, InterfaceType.REQUIRED, numPort);
+	public SecRequiredPort(int numPort) {
+		super("SecRequiredPort", InterfaceType.REQUIRED, numPort);
 	}
 
 }

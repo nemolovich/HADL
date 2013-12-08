@@ -5,8 +5,8 @@ import m2.interfaces.Role;
 
 public class AuthTo extends Role {
 
-	public AuthTo(String name) {
-		super(name, InterfaceType.PROVIDED);
+	public AuthTo() {
+		super("AuthTo", InterfaceType.REQUIRED);
 	}
 
 }

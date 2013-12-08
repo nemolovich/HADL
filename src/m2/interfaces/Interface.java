@@ -1,11 +1,11 @@
 package m2.interfaces;
 
 import m2.M2Object;
-import m2.element.Configuration;
+import m2.element.Component;
 
 public abstract class Interface extends M2Object {
 	private InterfaceType type;
-	protected Configuration configuration;
+	protected Component component;
 
 	public Interface(String name, InterfaceType type) {
 		super(name);
@@ -27,7 +27,7 @@ public abstract class Interface extends M2Object {
 		this.type = type;
 	}
 
-	public void setConfiguration(Configuration configuration) {
-		this.configuration = configuration;
+	public void setComponent(Component component) {
+		this.component = component;
 	}
 }

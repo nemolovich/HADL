@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import m2.M2Object;
+import m2.connector.AtomicConnector;
+import m2.connector.Glue;
 import m2.exception.ServiceException;
 import m2.interfaces.Interface;
+import m2.interfaces.InterfaceType;
+import m2.interfaces.Port;
+import m2.interfaces.Role;
 import m2.interfaces.Service;
 import m2.link.Attachement;
 import m2.link.Link;
@@ -275,6 +280,7 @@ public abstract class Configuration extends Component {
 		}
 	}
 
+	@Override
 	public Object callService(String serviceName, Map<String, Object> args) {
 		Service toCall = null;
 		synchronized (this.interfaces) {
@@ -350,5 +356,105 @@ public abstract class Configuration extends Component {
 			}
 		}
 		return false;
+	}
+
+	public Role getRoleConnectedWith(Role r) {
+		synchronized (this.elements) {
+			for (Element e : this.elements) {
+				if (e instanceof AtomicConnector) {
+					List<Glue> glues = ((AtomicConnector) e).getGlues();
+					synchronized (glues) {
+						for (Glue g : glues) {
+							if (g.getFrom().equals(r)) {
+								System.out.println("[Configuration{"
+										+ this.getName() + "}] Using Glue{"
+										+ g.getName() + "}");
+								System.out.println("\tRole{"
+										+ g.getFrom().getName() + "} -> Role{"
+										+ g.getTo().getName() + "}");
+								return g.getTo();
+							} else if (g.getTo().equals(r)) {
+								System.out.println("[Configuration{"
+										+ this.getName() + "}] Using Glue{"
+										+ g.getName() + "}");
+								System.out.println("\tRole{"
+										+ g.getTo().getName() + "} <- Role{"
+										+ g.getFrom().getName() + "}");
+								return g.getFrom();
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Port getLinkedFromRole(Role r) {
+		synchronized (this.links) {
+			for (Link l : this.links) {
+				if (l instanceof Attachement) {
+					if (((Attachement) l).getFrom().equals(r)) {
+						System.out.println("[Configuration{" + this.getName()
+								+ "}] Using Attachement{" + l.getName() + "}");
+						System.out.println("\tRole{" + l.getFrom().getName()
+								+ "} -> Port{" + l.getTo().getName() + "}");
+						return (Port) l.getTo();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Role getLinkedToPort(Interface i) {
+		synchronized (this.links) {
+			for (Link l : this.links) {
+				if (l instanceof Attachement) {
+					if (((Attachement) l).getFrom().equals(i)) {
+						System.out.println("[Configuration{" + this.getName()
+								+ "}] Using Attachement{" + l.getName() + "}");
+						System.out.println("\tPort{" + l.getFrom().getName()
+								+ "} -> Role{" + l.getTo().getName() + "}");
+						return (Role) l.getTo();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Object callServiceFromPort(String serviceName,
+			Map<String, Object> params, Port port) {
+		Role r = this.getLinkedToPort(port);
+		if (r != null) {
+			Port p = this.getLinkedFromRole(this.getRoleConnectedWith(r));
+			System.out.println("[Configuration{" + this.getName()
+					+ "}] Call service {" + serviceName + "} on Port{"
+					+ p.getName() + "}");
+			synchronized (this.elements) {
+				for (Element e : this.elements) {
+					if (e instanceof Component) {
+						List<Interface> intfces = ((Component) e).interfaces;
+						for (Interface i : intfces) {
+							if (i instanceof Port
+									&& ((Port) i).getType().equals(
+											InterfaceType.PROVIDED)) {
+								if (i.equals(p)) {
+									System.out.println("[Configuration{"
+											+ this.getName()
+											+ "}] Call service {" + serviceName
+											+ "} on Component{" + e.getName()
+											+ "}");
+									return this
+											.callService(serviceName, params);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 }
