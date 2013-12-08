@@ -1,7 +1,7 @@
 package m1.configuration;
 
+import m1.server.configuration.RPCConfPort;
 import m2.exception.NonDifferentsTypesException;
-import m2.interfaces.Interface;
 import m2.link.Attachement;
 
 public class RPCAttachement extends Attachement {
@@ -11,9 +11,9 @@ public class RPCAttachement extends Attachement {
 	 */
 	private static final long serialVersionUID = 7319003102747332135L;
 
-	public RPCAttachement(String name, RPCPort from, Interface to)
+	public RPCAttachement(RPCConfPort from, RPCFrom to)
 			throws NonDifferentsTypesException {
-		super(name, from, to);
+		super("RPCAttachement", from, to);
 	}
 
 }

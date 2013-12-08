@@ -13,14 +13,12 @@ public class RPCConnector extends AtomicConnector {
 	 */
 	private static final long serialVersionUID = 8555718792635210235L;
 
-	public RPCConnector(String name, List<Role> roles, List<Glue> glues) {
-		super(name, roles, glues);
-		// TODO Auto-generated constructor stub
+	public RPCConnector(List<Role> roles, List<Glue> glues) {
+		super("RPCConnector", roles, glues);
 	}
 
-	public RPCConnector(String name) {
-		super(name);
-		// TODO Auto-generated constructor stub
+	public RPCConnector() {
+		super("RPCConnector");
 	}
 
 }

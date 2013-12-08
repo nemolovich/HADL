@@ -15,8 +15,8 @@ public class RPCConfPort extends Port {
 	 */
 	private static final long serialVersionUID = -7743429607010173678L;
 
-	public RPCConfPort(String name, int numPort) {
-		super(name, InterfaceType.REQUIRED, numPort);
+	public RPCConfPort(int numPort) {
+		super("RPCConfPort", InterfaceType.REQUIRED, numPort);
 	}
 
 }

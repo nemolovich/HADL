@@ -320,8 +320,11 @@ public abstract class Configuration extends Component {
 							System.out.println("[Configuration{"
 									+ this.getName() + "}] Call service {"
 									+ serviceName + "}");
-							return ((Configuration) e).callService(serviceName,
-									args);
+							return this.callServiceToConfiguration(serviceName,
+									args, (Configuration) e);
+							// return ((Configuration)
+							// e).callService(serviceName,
+							// args);
 						}
 					} else if (e instanceof Component) {
 						synchronized (((Component) e).interfaces) {
@@ -347,6 +350,28 @@ public abstract class Configuration extends Component {
 		}
 		System.err.println("[Configuration{" + this.getName()
 				+ "}] Error: Can not find service {" + serviceName + "}");
+		return null;
+	}
+
+	public Object callServiceToConfiguration(String serviceName,
+			Map<String, Object> args, Configuration c) {
+		synchronized (this.links) {
+			for (Link l : this.links) {
+				Port port = (Port) l.getTo();
+				synchronized (c.interfaces) {
+					for (Interface i : c.interfaces) {
+						if (i.equals(port)) {
+							System.out.println("[Configuration{"
+									+ this.getName() + "}] Call service {"
+									+ serviceName + "} on Configuration{"
+									+ c.getName() + "}");
+							return c.callServiceFromPort(serviceName, args,
+									port);
+						}
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -415,7 +440,7 @@ public abstract class Configuration extends Component {
 		return null;
 	}
 
-	public Port getLinkedFromRole(Role r) {
+	public Port getAttachedFromRole(Role r) {
 		synchronized (this.links) {
 			for (Link l : this.links) {
 				if (l instanceof Attachement) {
@@ -432,16 +457,23 @@ public abstract class Configuration extends Component {
 		return null;
 	}
 
-	public Role getLinkedToPort(Interface i) {
+	public Role getAttachedToPort(Interface i) {
 		synchronized (this.links) {
+			System.out.println("For: " + i.getName());
 			for (Link l : this.links) {
 				if (l instanceof Attachement) {
-					if (((Attachement) l).getFrom().equals(i)) {
-						System.out.println("[Configuration{" + this.getName()
-								+ "}] Using Attachement{" + l.getName() + "}");
-						System.out.println("\tPort{" + l.getFrom().getName()
-								+ "} -> Role{" + l.getTo().getName() + "}");
-						return (Role) l.getTo();
+					System.out.println("Link; " + l.getFrom().getName() + " - "
+							+ l.getTo().getName());
+					if (((Attachement) l).getTo().equals(i)) {
+						if (l.getTo() instanceof Role) {
+							System.out.println("[Configuration{"
+									+ this.getName() + "}] Using Attachement{"
+									+ l.getName() + "}");
+							System.out.println("\tPort{"
+									+ l.getFrom().getName() + "} -> Role{"
+									+ l.getTo().getName() + "}");
+							return (Role) l.getTo();
+						}
 					}
 				}
 			}
@@ -451,9 +483,9 @@ public abstract class Configuration extends Component {
 
 	public Object callServiceFromPort(String serviceName,
 			Map<String, Object> params, Port port) {
-		Role r = this.getLinkedToPort(port);
+		Role r = this.getAttachedToPort(port);
 		if (r != null) {
-			Port p = this.getLinkedFromRole(this.getRoleConnectedWith(r));
+			Port p = this.getAttachedFromRole(this.getRoleConnectedWith(r));
 			System.out.println("[Configuration{" + this.getName()
 					+ "}] Call service {" + serviceName + "} on Port{"
 					+ p.getName() + "}");

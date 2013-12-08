@@ -10,9 +10,8 @@ public class RPCFrom extends Role {
 	 */
 	private static final long serialVersionUID = 3919990392922194824L;
 
-	public RPCFrom(String name, InterfaceType type) {
-		super(name, type);
-		// TODO Auto-generated constructor stub
+	public RPCFrom() {
+		super("RPCFrom", InterfaceType.PROVIDED);
 	}
 
 }
