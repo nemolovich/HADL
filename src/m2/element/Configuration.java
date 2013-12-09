@@ -13,6 +13,7 @@ import m2.interfaces.Port;
 import m2.interfaces.Role;
 import m2.interfaces.Service;
 import m2.link.Attachement;
+import m2.link.Binding;
 import m2.link.Link;
 import m2.option.Property;
 import m2.option.TechnicalConstraint;
@@ -386,29 +387,39 @@ public abstract class Configuration extends Component {
 			Map<String, Object> args, Configuration c) {
 		synchronized (this.links) {
 			for (Link l : this.links) {
-				Port port = (Port) l.getTo();
-				synchronized (c.interfaces) {
-					for (Interface i : c.interfaces) {
-						if (i.equals(port)) {
-							System.out.println("[Configuration{"
-									+ this.getName() + "}] Call service {"
-									+ serviceName + "} on Configuration{"
-									+ c.getName() + "}");
-							Object result = c.callService(serviceName, args);
-							if (result != null) {
+				if (l instanceof Binding) {
+					Port port = (Port) l.getTo();
+					synchronized (c.interfaces) {
+						for (Interface i : c.interfaces) {
+							if (i.equals(port)) {
 								System.out.println("[Configuration{"
-										+ this.getName()
-										+ "}] got service response from {"
+										+ this.getName() + "}] Using Binding{"
+										+ l.getName() + "}");
+								System.out.println("\tPort{"
+										+ l.getFrom().getName() + "} -> Port{"
+										+ l.getTo().getName() + "}");
+								System.out.println("[Configuration{"
+										+ this.getName() + "}] Call service {"
 										+ serviceName + "} on Configuration{"
 										+ c.getName() + "}");
-							} else {
-								System.err
-										.println("[Configuration{"
-												+ this.getName()
-												+ "}] can not get service response on Configuration{"
-												+ c.getName() + "}");
+								Object result = c
+										.callService(serviceName, args);
+								if (result != null) {
+									System.out.println("[Configuration{"
+											+ this.getName()
+											+ "}] got service response from {"
+											+ serviceName
+											+ "} on Configuration{"
+											+ c.getName() + "}");
+								} else {
+									System.err
+											.println("[Configuration{"
+													+ this.getName()
+													+ "}] can not get service response on Configuration{"
+													+ c.getName() + "}");
+								}
+								return result;
 							}
-							return result;
 						}
 					}
 				}
