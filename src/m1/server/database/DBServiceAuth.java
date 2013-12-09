@@ -9,6 +9,17 @@ import m2.exception.WrongServiceNumberArguments;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 
+/**
+ * This service will search an user name in the database, if it is found, it
+ * will return the password corresponding to this user name.
+ * 
+ * @param user
+ *            {@link String String.class} - The user name
+ * @return {@link String String.class} - The password for given user
+ * 
+ * @author Guillaume COUTABLE, Brian GOHIER
+ * @see {@link Service}
+ */
 public class DBServiceAuth extends Service {
 
 	/**
@@ -19,23 +30,23 @@ public class DBServiceAuth extends Service {
 	public DBServiceAuth() {
 		super("DBServiceAuth", InterfaceType.PROVIDED);
 		this.addParameter("user", String.class);
-		this.addParameter("password", String.class);
-		this.setReturnType(boolean.class);
+		this.setReturnType(String.class);
 	}
 
 	@Override
 	public Object call(Map<String, Object> args) throws ServiceException {
 		this.describe(args);
 		if (args.size() != this.args.size()) {
-			throw new WrongServiceNumberArguments(this.args.size());
+			throw new WrongServiceNumberArguments(this.getName(),
+					this.args.size());
 		}
 		synchronized (this.args) {
 			for (String param : this.args.keySet()) {
 				if (!args.containsKey(param)) {
-					throw new WrongServiceArguments();
+					throw new WrongServiceArguments(this.getName());
 				} else if (!this.args.get(param).isAssignableFrom(
 						args.get(param).getClass())) {
-					throw new WrongServiceArgumentType(param,
+					throw new WrongServiceArgumentType(this.getName(), param,
 							this.args.get(param));
 				}
 			}
@@ -57,7 +68,8 @@ public class DBServiceAuth extends Service {
 			System.err.println("[DBServiceAuth] No match value found");
 			return false;
 		}
-		return dbServiceRequest.getAttrValue("user", "password", id);
+		return this.returnType.cast(dbServiceRequest.getAttrValue("user",
+				"password", id));
 	}
 
 }

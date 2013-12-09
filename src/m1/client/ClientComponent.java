@@ -15,16 +15,30 @@ public class ClientComponent extends Component {
 	private static final long serialVersionUID = 5130875137417032993L;
 	private String password;
 
+	/**
+	 * Constructor using one of its provided ports
+	 * 
+	 * @param intfce
+	 *            {@link ClientProvidedPort} - The client port
+	 */
 	public ClientComponent(ClientProvidedPort intfce) {
 		super("ClientComponent", intfce);
 	}
 
+	/**
+	 * Set the user password
+	 * 
+	 * @param password
+	 *            {@link String} - The user password to set
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
-	 * Like SQL Request
+	 * Display the result of a request.
+	 * 
+	 * Like SQL Request:
 	 * 
 	 * <pre>
 	 * <code>SELECT [columns] FROM [table] WHERE [attr]=[value];</code>
@@ -37,9 +51,14 @@ public class ClientComponent extends Component {
 	 * </pre>
 	 * 
 	 * @param table
+	 *            {@link String} - The table name in database
 	 * @param attr
+	 *            {@link String} - Attribute filter to apply
 	 * @param value
+	 *            {@link String} - Attribute filter value to apply
 	 * @param columns
+	 *            {@link List}<{@link String}> - The list of columns to display
+	 *            from table
 	 */
 	@SuppressWarnings("unchecked")
 	public void doRequest(String table, String attr, String value,
@@ -64,6 +83,12 @@ public class ClientComponent extends Component {
 		System.out.println("Result: " + Arrays.toString(res.toArray()));
 	}
 
+	/**
+	 * Return <code>true</code> if the client's identifiants are corrects.
+	 * 
+	 * @return {@link Boolean boolean} <code>true</code> if the client is
+	 *         connected, <code>false</code> otherwise
+	 */
 	public boolean isConnected() {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("user", this.getName());

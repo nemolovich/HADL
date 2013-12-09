@@ -24,6 +24,30 @@ import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 import fr.univ.nantes.StringUtil.StringUtil;
 
+/**
+ * This service will send a request to the database and return its result. The
+ * parameters of this service are like the SQL queries parameters. Using a table
+ * name, a attribute filter, an attribute filter value, and the columns list to
+ * return.
+ * 
+ * @param TABLE
+ *            - {@link String String.class} - The table name
+ * @param GET_COLUMN
+ *            - {@link String String.class} - The column filter to apply
+ * @param VALUE
+ *            - {@link String String.class} - The column filter value to apply.
+ *            If the value equals "*", this will returns the columns for all
+ *            entities in the specified table
+ * @param RETURN_COLUMNS
+ *            - {@link List List.class} - The list of the columns name to
+ *            return. If it contains the value "*", this will return all the
+ *            columns
+ * @return {@link List List.class} - The {@link List}<{@link String}> of the
+ *         request result
+ * 
+ * @author Guillaume COUTABLE, Brian GOHIER
+ * @see {@link Service}
+ */
 public class DBServiceRequest extends Service {
 
 	/**
@@ -45,6 +69,8 @@ public class DBServiceRequest extends Service {
 
 	public DBServiceRequest() {
 		super("DBServiceRequest", InterfaceType.PROVIDED);
+		this.addParameter("user", String.class);
+		this.addParameter("password", String.class);
 		this.addParameter("TABLE", String.class);
 		this.addParameter("GET_COLUMN", String.class);
 		this.addParameter("VALUE", String.class);
@@ -56,31 +82,29 @@ public class DBServiceRequest extends Service {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object call(Map<String, Object> args) throws ServiceException {
-		this.describe(args);
-		if (!args.containsKey("user") || !args.containsKey("password")) {
-			throw new WrongServiceArguments();
-		}
-		Map<String, Object> authParams = new HashMap<String, Object>();
-		authParams.put("user", args.get("user"));
-		authParams.put("password", args.get("password"));
-		boolean authorized = (Boolean) this.component.callService("SecService",
-				authParams);
-		if (!authorized) {
-			throw new InsufficientRightsForService(this.getName());
-		}
-		if (args.size() != this.args.size() + 2) {
-			throw new WrongServiceNumberArguments(this.args.size() + 2);
+		if (args.size() != this.args.size()) {
+			throw new WrongServiceNumberArguments(this.getName(),
+					this.args.size());
 		}
 		synchronized (this.args) {
 			for (String param : this.args.keySet()) {
 				if (!args.containsKey(param)) {
-					throw new WrongServiceArguments();
+					throw new WrongServiceArguments(this.getName());
 				} else if (!this.args.get(param).isAssignableFrom(
 						args.get(param).getClass())) {
-					throw new WrongServiceArgumentType(param,
+					throw new WrongServiceArgumentType(this.getName(), param,
 							this.args.get(param));
 				}
 			}
+		}
+		this.describe(args);
+		Map<String, Object> authParams = new HashMap<String, Object>();
+		authParams.put("user", args.get("user"));
+		authParams.put("password", args.get("password"));
+		boolean authorized = (Boolean) this.component.callService(
+				"AuthService", authParams);
+		if (!authorized) {
+			throw new InsufficientRightsForService(this.getName());
 		}
 		String entity = (String) args.get("TABLE");
 		String attName = (String) args.get("GET_COLUMN");
@@ -124,7 +148,7 @@ public class DBServiceRequest extends Service {
 			}
 			result.add(line);
 		}
-		return result;
+		return this.returnType.cast(result);
 	}
 
 	private List<Integer> getIdsFrom(String entity) {

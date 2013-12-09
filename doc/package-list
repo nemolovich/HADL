@@ -1,0 +1,16 @@
+fr.univ.nantes.StringUtil
+m0.main
+m1.client
+m1.configuration
+m1.server
+m1.server.authentification
+m1.server.configuration
+m1.server.database
+m1.server.security
+m2
+m2.connector
+m2.element
+m2.exception
+m2.interfaces
+m2.link
+m2.option

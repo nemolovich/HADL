@@ -8,14 +8,15 @@ public class WrongServiceNumberArguments extends ServiceException {
 	private static final long serialVersionUID = -6688339397045213417L;
 	private int nbArgs;
 
-	public WrongServiceNumberArguments(int nbArgs) {
+	public WrongServiceNumberArguments(String serviceName, int nbArgs) {
+		super(serviceName);
 		this.nbArgs = nbArgs;
 	}
 
 	@Override
 	public void printStackTrace() {
-		System.err.println("WrongServiceNumberArguments: "
-				+ "This service required " + this.nbArgs + " parameters");
 		super.printStackTrace();
+		System.err.println("WrongServiceNumberArguments: "
+				+ "This service require " + this.nbArgs + " parameter(s)");
 	}
 }

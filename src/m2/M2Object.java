@@ -3,11 +3,10 @@ package m2;
 import java.io.Serializable;
 
 /**
+ * For each elements in our M2 model, we can assign a name, helping to identify
+ * them.
  * 
  * @author Guillaume Coutable, Brian Gohier
- * 
- *         Permet l'extraction de l'attribut 'name' de chaque classe de notre
- *         modele M2
  * 
  */
 public abstract class M2Object implements Serializable {
@@ -23,15 +22,19 @@ public abstract class M2Object implements Serializable {
 	}
 
 	/**
-	 * @return the name
+	 * Return the object name
+	 * 
+	 * @return {@link String} - The object name
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
+	 * Set the object name
+	 * 
 	 * @param name
-	 *            the name to set
+	 *            {@link String} - The object name to set
 	 */
 	public void setName(String name) {
 		this.name = name;

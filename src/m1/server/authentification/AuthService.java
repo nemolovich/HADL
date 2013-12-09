@@ -11,6 +11,17 @@ import m2.exception.WrongServiceNumberArguments;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 
+/**
+ * This service will return the password that must check with the given user
+ * name.
+ * 
+ * @param user
+ *            {@link String String.class} - The user name
+ * @return {@link String String.class} - The password for given user
+ * 
+ * @author Guillaume COUTABLE, Brian GOHIER
+ * @see Service
+ */
 public class AuthService extends Service {
 
 	/**
@@ -29,25 +40,30 @@ public class AuthService extends Service {
 	public Object call(Map<String, Object> args) throws ServiceException {
 		this.describe(args);
 		if (args.size() != this.args.size()) {
-			throw new WrongServiceNumberArguments(this.args.size());
+			throw new WrongServiceNumberArguments(this.getName(),
+					this.args.size());
 		}
 		synchronized (this.args) {
 			for (String param : this.args.keySet()) {
 				if (!args.containsKey(param)) {
-					throw new WrongServiceArguments();
-				} else if (!this.args.get(param).isAssignableFrom(
-						args.get(param).getClass())) {
-					throw new WrongServiceArgumentType(param,
+					throw new WrongServiceArguments(this.getName());
+				} else if (!args.get(param).getClass()
+						.isAssignableFrom(this.args.get(param))) {
+					throw new WrongServiceArgumentType(this.getName(), param,
 							this.args.get(param));
 				}
 			}
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("user", args.get("user"));
-		params.put("password", args.get("password"));
 		System.out.println("[Service{" + this.getName() + "}] Call service {"
-				+ "DBServiceAuth" + "} with params "
+				+ "SecService" + "} with params "
 				+ Arrays.toString(params.entrySet().toArray()));
-		return this.component.callService("DBServiceAuth", params);
+		String password = (String) this.component.callService("SecService",
+				params);
+		if (password == null) {
+			return false;
+		}
+		return (password.equals(args.get("password")));
 	}
 }

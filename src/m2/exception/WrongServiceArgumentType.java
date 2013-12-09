@@ -7,17 +7,20 @@ public class WrongServiceArgumentType extends ServiceException {
 	 */
 	private static final long serialVersionUID = 3834752471863053303L;
 	private Class<?> type;
-	private String name;
+	private String attName;
 
-	public WrongServiceArgumentType(String name, Class<?> type) {
-		this.name = name;
+	public WrongServiceArgumentType(String serviceName, String attName,
+			Class<?> type) {
+		super(serviceName);
+		this.attName = attName;
 		this.type = type;
 	}
 
 	@Override
 	public void printStackTrace() {
-		System.err.println("WrongServiceArgumentType: Argument \"" + this.name
-				+ "\" expect type \"" + this.type.getName() + "\"");
 		super.printStackTrace();
+		System.err.println("WrongServiceArgumentType: Argument \""
+				+ this.attName + "\" expect type \"" + this.type.getName()
+				+ "\"");
 	}
 }

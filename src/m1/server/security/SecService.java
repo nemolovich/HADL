@@ -11,6 +11,17 @@ import m2.exception.WrongServiceNumberArguments;
 import m2.interfaces.InterfaceType;
 import m2.interfaces.Service;
 
+/**
+ * 
+ * @param user
+ *            {@link String String.class} - The user name
+ * @param password
+ *            {@link String String.class} - The user password
+ * @return {@link Boolean boolean.class} - <code>true</code> if the parameters
+ *         make match user and password, <code>false</code> otherwise
+ * @author Guillaume COUTABLE, Brian GOHIER
+ * @see {@link Service}
+ */
 public class SecService extends Service {
 
 	/**
@@ -21,38 +32,34 @@ public class SecService extends Service {
 	public SecService() {
 		super("SecService", InterfaceType.PROVIDED);
 		this.addParameter("user", String.class);
-		this.addParameter("password", String.class);
+		this.setReturnType(String.class);
 	}
 
 	@Override
 	public Object call(Map<String, Object> args) throws ServiceException {
 		this.describe(args);
 		if (args.size() != this.args.size()) {
-			throw new WrongServiceNumberArguments(this.args.size());
+			throw new WrongServiceNumberArguments(this.getName(),
+					this.args.size());
 		}
 		synchronized (this.args) {
 			for (String param : this.args.keySet()) {
 				if (!args.containsKey(param)) {
-					throw new WrongServiceArguments();
-				} else if (!args.get(param).getClass()
-						.isAssignableFrom(this.args.get(param))) {
-					throw new WrongServiceArgumentType(param,
+					throw new WrongServiceArguments(this.getName());
+				} else if (!this.args.get(param).isAssignableFrom(
+						args.get(param).getClass())) {
+					throw new WrongServiceArgumentType(this.getName(), param,
 							this.args.get(param));
 				}
 			}
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("user", args.get("user"));
-		params.put("password", args.get("password"));
 		System.out.println("[Service{" + this.getName() + "}] Call service {"
-				+ "AuthService" + "} with params "
+				+ "DBServiceAuth" + "} with params "
 				+ Arrays.toString(params.entrySet().toArray()));
-		String password = (String) this.component.callService("AuthService",
-				params);
-		if (password == null) {
-			return false;
-		}
-		return (password.equals(args.get("password")));
+		return this.returnType.cast(this.component.callService("DBServiceAuth",
+				params));
 	}
 
 }

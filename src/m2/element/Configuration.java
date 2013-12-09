@@ -43,11 +43,14 @@ public abstract class Configuration extends Component {
 	 */
 
 	/**
-	 * Check if this configuration contains the specified property
+	 * Check if this configuration contains the specified {@link Property
+	 * property}
 	 * 
 	 * @param property
-	 *            whose presence in this configuration is to be tested
-	 * @return {@code true} if this configuration contain the specified property
+	 *            {@link Property} - The property whose presence in this
+	 *            configuration is to be tested
+	 * @return {@link Boolean boolean} <code>true</code> if this configuration
+	 *         contain the specified property, <code>false</code> otherwise
 	 */
 	public boolean containsProperty(Property property) {
 		synchronized (this.properties) {
@@ -56,11 +59,12 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add property
+	 * Add a {@link Property property} in the current configuration
 	 * 
 	 * @param property
-	 *            to add
-	 * @return {@code true} if the property had been added
+	 *            {@link Property} - The property to add
+	 * @return {@link Boolean boolean} <code>true</code> if the property has
+	 *         been added in the configuration
 	 */
 	public boolean addProperty(Property property) {
 		synchronized (this.properties) {
@@ -69,11 +73,12 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add a list of properties
+	 * Add {@link Property properties} in the current configuration
 	 * 
 	 * @param properties
-	 *            to add
-	 * @return {@code true} if properties had all been added
+	 *            {@link List}<{@link Property}> - The properties to add
+	 * @return {@link Boolean boolean} <code>true</code> if all the properties
+	 *         had been added in the configuration
 	 */
 	public boolean addProperties(List<Property> properties) {
 		synchronized (this.properties) {
@@ -82,11 +87,12 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add properties
+	 * Add {@link Property properties} in the current configuration
 	 * 
 	 * @param properties
-	 *            to add
-	 * @return {@code true} if properties had all been added
+	 *            {@link Property}[] - The properties to add
+	 * @return {@link Boolean boolean} <code>true</code> if all the properties
+	 *         had been added in the configuration
 	 */
 	public boolean addProperties(Property... properties) {
 		boolean added = true;
@@ -99,12 +105,12 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * remove the property from this configuration
+	 * Remove a {@link Property property} from the current configuration
 	 * 
 	 * @param property
-	 *            to remove
-	 * @return {@code true} if this configuration contained the specified
-	 *         property
+	 *            {@link Property} - The property to remove
+	 * @return {@link Boolean boolean} <code>true</code> if the property has
+	 *         been correctly removed from the configuration
 	 */
 	public boolean removeProperty(Property property) {
 		synchronized (this.properties) {
@@ -117,12 +123,14 @@ public abstract class Configuration extends Component {
 	 */
 
 	/**
-	 * Check if this configuration contains the specified constraint
+	 * Check if this configuration contains the specified
+	 * {@link TechnicalConstraint constraint}
 	 * 
 	 * @param constraint
-	 *            whose presence in this configuration is to be tested
-	 * @return {@code true} if this configuration contain the specified
-	 *         constraint
+	 *            {@link TechnicalConstraint} - The constraint whose presence in
+	 *            this configuration is to be tested
+	 * @return {@link Boolean boolean} <code>true</code> if this configuration
+	 *         contain the specified constraint, <code>false</code> otherwise
 	 */
 	public boolean containsConstraint(TechnicalConstraint constraint) {
 		synchronized (this.constraints) {
@@ -131,11 +139,12 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add constraint
+	 * Add a {@link TechnicalConstraint constraint} in the current configuration
 	 * 
 	 * @param constraint
-	 *            to add
-	 * @return {@code true} if the constraint had been added
+	 *            {@link TechnicalConstraint} - The constraint to add
+	 * @return {@link Boolean boolean} <code>true</code> if the constraint has
+	 *         been added in the configuration
 	 */
 	public boolean addConstraint(TechnicalConstraint constraint) {
 		synchronized (this.constraints) {
@@ -144,11 +153,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add a list of constraints
+	 * Add {@link TechnicalConstraint constraints} in the current configuration
 	 * 
 	 * @param constraints
-	 *            to add
-	 * @return {@code true} if constraints had all been added
+	 *            {@link List}<{@link TechnicalConstraint}> - The constraints to
+	 *            add
+	 * @return {@link Boolean boolean} <code>true</code> if all the constraints
+	 *         had been added in the configuration
 	 */
 	public boolean addConstraints(List<TechnicalConstraint> constraints) {
 		synchronized (this.constraints) {
@@ -157,11 +168,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add constraints
+	 * Add {@link TechnicalConstraint constraints} in the current configuration
 	 * 
 	 * @param constraints
-	 *            to add
-	 * @return {@code true} if constraints had all been added
+	 *            {@link List}<{@link TechnicalConstraint}> - The constraints to
+	 *            add
+	 * @return {@link Boolean boolean} <code>true</code> if all the constraints
+	 *         had been added in the configuration
 	 */
 	public boolean addConstraints(TechnicalConstraint... constraints) {
 		boolean added = true;
@@ -174,12 +187,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * remove the constraint from this configuration
+	 * Remove an {@link TechnicalConstraint constraint} from the current
+	 * configuration
 	 * 
 	 * @param constraint
-	 *            to remove
-	 * @return {@code true} if this configuration contained the specified
-	 *         constraint
+	 *            {@link TechnicalConstraint} - The constraint to remove
+	 * @return {@link Boolean boolean} <code>true</code> if the constraint has
+	 *         been correctly removed from the configuration
 	 */
 	public boolean removeConstraint(TechnicalConstraint constraint) {
 		synchronized (this.constraints) {
@@ -192,11 +206,14 @@ public abstract class Configuration extends Component {
 	 */
 
 	/**
-	 * Check if this configuration contains the specified element
+	 * Check if this configuration contains the specified {@link Element
+	 * element}
 	 * 
 	 * @param element
-	 *            whose presence in this configuration is to be tested
-	 * @return {@code true} if this configuration contain the specified element
+	 *            {@link Element} - The element whose presence in this
+	 *            configuration is to be tested
+	 * @return {@link Boolean boolean} <code>true</code> if this configuration
+	 *         contain the specified element, <code>false</code> otherwise
 	 */
 	public boolean containsElement(Element element) {
 		synchronized (this.elements) {
@@ -205,11 +222,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add element
+	 * Add an element like {@link Component} or {@link Configuration} in the
+	 * current configuration
 	 * 
 	 * @param element
-	 *            to add
-	 * @return {@code true} if the element had been added
+	 *            {@link Element} - The element to add
+	 * @return {@link Boolean boolean} <code>true</code> if the element has been
+	 *         added in the configuration
 	 */
 	public boolean addElement(Element element) {
 		synchronized (this.elements) {
@@ -219,11 +238,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add a list of elements
+	 * Add elements like {@link Component} or {@link Configuration} in the
+	 * current configuration
 	 * 
 	 * @param elements
-	 *            to add
-	 * @return {@code true} if elements had all been added
+	 *            {@link List}<{@link Element}> - The elements to add
+	 * @return {@link Boolean boolean} <code>true</code> if all the elements had
+	 *         been added in the configuration
 	 */
 	public boolean addElements(List<Element> elements) {
 		synchronized (this.elements) {
@@ -237,11 +258,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * Add elements
+	 * Add elements like {@link Component} or {@link Configuration} in the
+	 * current configuration
 	 * 
 	 * @param elements
-	 *            to add
-	 * @return {@code true} if elements had all been added
+	 *            {@link Element}[] - The elements to add
+	 * @return {@link Boolean boolean} <code>true</code> if all the elements had
+	 *         been added in the configuration
 	 */
 	public boolean addElements(Element... elements) {
 		boolean added = true;
@@ -255,12 +278,13 @@ public abstract class Configuration extends Component {
 	}
 
 	/**
-	 * remove the element from this configuration
+	 * Remove an element like {@link Component} or {@link Configuration} from
+	 * the current configuration
 	 * 
 	 * @param element
-	 *            to remove
-	 * @return {@code true} if this configuration contained the specified
-	 *         element
+	 *            {@link Element} - The element to remove
+	 * @return {@link Boolean boolean} <code>true</code> if the element has been
+	 *         correctly removed from the configuration
 	 */
 	public boolean removeElement(Element element) {
 		synchronized (this.elements) {
@@ -338,8 +362,15 @@ public abstract class Configuration extends Component {
 					+ "}] Call service {" + toCall.getName() + "}");
 			try {
 				Object result = toCall.call(args);
-				System.out.println("[Configuration{" + this.getName()
-						+ "}] got service response from {" + serviceName + "}");
+				if (result != null) {
+					System.out.println("[Configuration{" + this.getName()
+							+ "}] got service response from {" + serviceName
+							+ "}");
+				} else {
+					System.err.println("[Configuration{" + this.getName()
+							+ "}] can not get service response from {"
+							+ serviceName + "}");
+				}
 				return result;
 			} catch (ServiceException e) {
 				e.printStackTrace();
@@ -364,11 +395,19 @@ public abstract class Configuration extends Component {
 									+ serviceName + "} on Configuration{"
 									+ c.getName() + "}");
 							Object result = c.callService(serviceName, args);
-							System.out.println("[Configuration{"
-									+ this.getName()
-									+ "}] got service response from {"
-									+ serviceName + "} on Configuration{"
-									+ c.getName() + "}");
+							if (result != null) {
+								System.out.println("[Configuration{"
+										+ this.getName()
+										+ "}] got service response from {"
+										+ serviceName + "} on Configuration{"
+										+ c.getName() + "}");
+							} else {
+								System.err
+										.println("[Configuration{"
+												+ this.getName()
+												+ "}] can not get service response on Configuration{"
+												+ c.getName() + "}");
+							}
 							return result;
 						}
 					}
@@ -546,11 +585,21 @@ public abstract class Configuration extends Component {
 											+ "}");
 									Object result = this.callService(
 											serviceName, args);
-									System.out.println("[Configuration{"
-											+ this.getName()
-											+ "}] got service response from {"
-											+ serviceName + "} on Component{"
-											+ e.getName() + "}");
+									if (result != null) {
+										System.out
+												.println("[Configuration{"
+														+ this.getName()
+														+ "}] got service response from {"
+														+ serviceName
+														+ "} on Component{"
+														+ e.getName() + "}");
+									} else {
+										System.err.println("[Configuration{"
+												+ this.getName()
+												+ "}] can not get service "
+												+ "response  on Component{"
+												+ e.getName() + "}");
+									}
 									return result;
 								}
 							}
